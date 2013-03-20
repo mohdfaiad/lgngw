@@ -1,0 +1,131 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{F470B2A3-F16B-430C-AA58-9E2C017C9505}</ProjectGuid>
+			<ProjectVersion>12.3</ProjectVersion>
+			<MainSource>extcon.dpr</MainSource>
+			<Base>True</Base>
+			<Config Condition="'$(Config)'==''">Debug</Config>
+			<Platform>Win32</Platform>
+			<AppType>Library</AppType>
+			<FrameworkType>None</FrameworkType>
+			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_1)'!=''">
+			<Cfg_1>true</Cfg_1>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
+			<Cfg_2>true</Cfg_2>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Base)'!=''">
+			<GenDll>true</GenDll>
+			<DCC_DcuOutput>.\$(Config)\$(Platform)</DCC_DcuOutput>
+			<DCC_ExeOutput>.\$(Config)\$(Platform)</DCC_ExeOutput>
+			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;$(DCC_UnitAlias)</DCC_UnitAlias>
+			<DCC_ImageBase>00400000</DCC_ImageBase>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_1)'!=''">
+			<DCC_DcuOutput>..\..\dcu</DCC_DcuOutput>
+			<DCC_ExeOutput>..\..\bin</DCC_ExeOutput>
+			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+			<DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
+			<DCC_Optimize>false</DCC_Optimize>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_2)'!=''">
+			<DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+			<DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+			<DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+			<DCC_DebugInformation>false</DCC_DebugInformation>
+		</PropertyGroup>
+		<ItemGroup>
+			<DelphiCompile Include="extcon.dpr">
+				<MainSource>MainSource</MainSource>
+			</DelphiCompile>
+			<BuildConfiguration Include="Release">
+				<Key>Cfg_2</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Base">
+				<Key>Base</Key>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Debug">
+				<Key>Cfg_1</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+		</ItemGroup>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')" Project="$(BDS)\Bin\CodeGear.Delphi.Targets"/>
+		<Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj"/>
+		<ProjectExtensions>
+			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Delphi.Personality>
+					<VersionInfo>
+						<VersionInfo Name="IncludeVerInfo">True</VersionInfo>
+						<VersionInfo Name="AutoIncBuild">True</VersionInfo>
+						<VersionInfo Name="MajorVer">1</VersionInfo>
+						<VersionInfo Name="MinorVer">56</VersionInfo>
+						<VersionInfo Name="Release">2</VersionInfo>
+						<VersionInfo Name="Build">33</VersionInfo>
+						<VersionInfo Name="Debug">False</VersionInfo>
+						<VersionInfo Name="PreRelease">False</VersionInfo>
+						<VersionInfo Name="Special">False</VersionInfo>
+						<VersionInfo Name="Private">False</VersionInfo>
+						<VersionInfo Name="DLL">False</VersionInfo>
+						<VersionInfo Name="Locale">1054</VersionInfo>
+						<VersionInfo Name="CodePage">874</VersionInfo>
+					</VersionInfo>
+					<VersionInfoKeys>
+						<VersionInfoKeys Name="CompanyName"/>
+						<VersionInfoKeys Name="FileDescription"/>
+						<VersionInfoKeys Name="FileVersion">1.56.2.33</VersionInfoKeys>
+						<VersionInfoKeys Name="InternalName"/>
+						<VersionInfoKeys Name="LegalCopyright"/>
+						<VersionInfoKeys Name="LegalTrademarks"/>
+						<VersionInfoKeys Name="OriginalFilename"/>
+						<VersionInfoKeys Name="ProductName"/>
+						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="Comments"/>
+					</VersionInfoKeys>
+					<Excluded_Packages>
+						<Excluded_Packages Name="C:\Users\Public\Documents\RAD Studio\8.0\Bpl\JvControlsDesign150.bpl">JVCL Visual Controls</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\bcbie150.bpl">File c:\program files (x86)\embarcadero\rad studio\8.0\bin\bcbie150.bpl not found</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclbcbsmp150.bpl">File c:\program files (x86)\embarcadero\rad studio\8.0\bin\dclbcbsmp150.bpl not found</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\bcboffice2k150.bpl">File c:\program files (x86)\embarcadero\rad studio\8.0\bin\bcboffice2k150.bpl not found</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\bcbofficexp150.bpl">File c:\program files (x86)\embarcadero\rad studio\8.0\bin\bcbofficexp150.bpl not found</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dcloffice2k150.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclofficexp150.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\BPL\dclcxSchedulerD15.bpl">ExpressScheduler by Developer Express Inc.</Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\BPL\dclcxSchedulerGridD15.bpl">ExpressScheduler connection to ExpressQuantumGrid by Developer Express Inc.</Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\BPL\JvCoredDesign150.bpl">File c:\program files (x86)\embarcadero\rad studio\8.0\BPL\JvCoredDesign150.bpl not found</Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\BPL\JvCtrlsDesign150.bpl">File c:\program files (x86)\embarcadero\rad studio\8.0\BPL\JvCtrlsDesign150.bpl not found</Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\BPL\JvInterpreterDesign150.bpl">File c:\program files (x86)\embarcadero\rad studio\8.0\BPL\JvInterpreterDesign150.bpl not found</Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\BPL\JvUIBDesign150.bpl">File c:\program files (x86)\embarcadero\rad studio\8.0\BPL\JvUIBDesign150.bpl not found</Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\BPL\amsql2011.bpl">Meta SQL Components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\BPL\iw11qb2011.bpl">TMS Intraweb Query Builder</Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\BPL\IW11TSSUID2011.bpl">TMS IntraWeb Security System components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\BPL\upf60XE.bpl">Runtime support for the TMS Plugin Framework 6.0</Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\BPL\DclIOADO_D15.bpl">InstantObjects ADO Design-Time Support (Delphi XE)</Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\BPL\acQueryBuilderDsgnADOD15.bpl">Active Query Builder ADO Connectivity</Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\BPL\DclTeePro915.bpl">TeeChart Pro 2012 Components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\BPL\TMSDED2011.bpl">TMS Component Pack design time support</Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\BPL\tmsxlsd2011.bpl">TMS TAdvStringGrid Excel support</Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\BPL\SMExportDXE.bpl">SMExport suite: data export from dataset. Written by Mike Shkolnik/Scalabium, 1998-2002.</Excluded_Packages>
+					</Excluded_Packages>
+					<Source>
+						<Source Name="MainSource">extcon.dpr</Source>
+					</Source>
+				</Delphi.Personality>
+				<Platforms>
+					<Platform value="Win32">True</Platform>
+				</Platforms>
+			</BorlandProject>
+			<ProjectFileVersion>12</ProjectFileVersion>
+		</ProjectExtensions>
+	</Project>

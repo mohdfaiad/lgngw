@@ -1,0 +1,4 @@
+<Configuration>
+	<HOSxPConfig ADDRESS="localhost" HOSTNAME="www.hosxp.net" USER="root" PASSWORD="123456" DATABASE="hos"/>
+	<ExtConfig ADDRESS="192.168.0.183" HOSTNAME="www.hosxp.net" USER="sa" PASSWORD="sa" DATABASE="hos_gateway"/>
+</Configuration>
