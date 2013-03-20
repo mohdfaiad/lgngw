@@ -1,0 +1,197 @@
+object formMappingTables: TformMappingTables
+  Left = 236
+  Top = 77
+  Caption = 'Mapping Tables'
+  ClientHeight = 547
+  ClientWidth = 917
+  Color = clBtnFace
+  Font.Charset = THAI_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = [fsBold]
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnCreate = FormCreate
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 506
+    Width = 917
+    Height = 41
+    Align = alBottom
+    BevelOuter = bvLowered
+    TabOrder = 0
+    DesignSize = (
+      917
+      41)
+    object btnOK: TButton
+      Left = 758
+      Top = 6
+      Width = 75
+      Height = 25
+      Anchors = [akRight, akBottom]
+      Caption = 'OK'
+      TabOrder = 0
+      OnClick = btnOKClick
+    end
+    object btnCancel: TButton
+      Left = 839
+      Top = 6
+      Width = 75
+      Height = 25
+      Anchors = [akRight, akBottom]
+      Caption = 'Cancel'
+      TabOrder = 1
+      OnClick = btnCancelClick
+    end
+  end
+  object cxGrid1: TcxGrid
+    Left = 0
+    Top = 0
+    Width = 917
+    Height = 506
+    Align = alClient
+    TabOrder = 1
+    object cxGrid1DBTableView1: TcxGridDBTableView
+      Navigator.Visible = True
+      DataController.DataSource = dsTables
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      OptionsView.GroupByBox = False
+      object cxGrid1DBTableView1Column1: TcxGridDBColumn
+        Caption = 'No.'
+        OnGetDataText = cxGrid1DBTableView1Column1GetDataText
+        Options.Sorting = False
+        Width = 47
+      end
+      object cxGrid1DBTableView1table_src_name: TcxGridDBColumn
+        Caption = 'Source Table Name'
+        DataBinding.FieldName = 'table_src_name'
+        Options.Sorting = False
+        Width = 173
+      end
+      object cxGrid1DBTableView1table_target_name: TcxGridDBColumn
+        Caption = 'Target Table Name'
+        DataBinding.FieldName = 'table_target_name'
+        Options.Sorting = False
+        Width = 246
+      end
+      object cxGrid1DBTableView1SyncType: TcxGridDBColumn
+        DataBinding.FieldName = 'SyncType'
+        Width = 100
+      end
+      object cxGrid1DBTableView1activate: TcxGridDBColumn
+        Caption = 'Active'
+        DataBinding.FieldName = 'activate'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ValueChecked = 'Y'
+        Properties.ValueUnchecked = 'N'
+        Options.Sorting = False
+        Width = 86
+        OnHeaderClick = cxGrid1DBTableView1activateHeaderClick
+      end
+      object cxGrid1DBTableView1Column2: TcxGridDBColumn
+        Caption = 'Fields Mapping'
+        PropertiesClassName = 'TcxButtonEditProperties'
+        Properties.Buttons = <
+          item
+            Default = True
+            Kind = bkEllipsis
+          end>
+        Properties.ViewStyle = vsButtonsOnly
+        Properties.OnButtonClick = cxGrid1DBTableView1Column2PropertiesButtonClick
+        Options.ShowEditButtons = isebAlways
+        Options.Sorting = False
+        Width = 105
+      end
+      object cxGrid1DBTableView1srcCondition: TcxGridDBColumn
+        Caption = 'Source Condition'
+        DataBinding.FieldName = 'srcCondition'
+        PropertiesClassName = 'TcxButtonEditProperties'
+        Properties.Buttons = <
+          item
+            Default = True
+            Kind = bkEllipsis
+          end>
+        Properties.ViewStyle = vsButtonsOnly
+        Properties.OnButtonClick = cxGrid1DBTableView1srcConditionPropertiesButtonClick
+        Options.ShowEditButtons = isebAlways
+        Width = 114
+      end
+      object cxGrid1DBTableView1targetCondition: TcxGridDBColumn
+        Caption = 'Target Condition'
+        DataBinding.FieldName = 'targetCondition'
+        PropertiesClassName = 'TcxButtonEditProperties'
+        Properties.Buttons = <
+          item
+            Default = True
+            Kind = bkEllipsis
+          end>
+        Properties.ViewStyle = vsButtonsOnly
+        Properties.OnButtonClick = cxGrid1DBTableView1targetConditionPropertiesButtonClick
+        Options.ShowEditButtons = isebAlways
+        Width = 119
+      end
+    end
+    object cxGrid1Level1: TcxGridLevel
+      GridView = cxGrid1DBTableView1
+    end
+  end
+  object cdsTables: TClientDataSet
+    Active = True
+    Aggregates = <>
+    Params = <>
+    Left = 112
+    Top = 120
+    Data = {
+      270100009619E0BD010000001800000008000000000003000000270102696404
+      000100000000000E7461626C655F7372635F6E616D6501004900000001000557
+      4944544802000200C800117461626C655F7461726765745F6E616D6501004900
+      0000010005574944544802000200C80008616374697661746501004900000001
+      000557494454480200020001000E6D617070696E675F6669656C647304004B00
+      00000100075355425459504502004900070042696E617279000C737263436F6E
+      646974696F6E04004B0000000100075355425459504502004900050054657874
+      000F746172676574436F6E646974696F6E04004B000000010007535542545950
+      4502004900050054657874000853796E63547970650100490000000100055749
+      4454480200020064000000}
+    object cdsTablesid: TIntegerField
+      FieldName = 'id'
+    end
+    object cdsTablestable_src_name: TStringField
+      FieldName = 'table_src_name'
+      Size = 200
+    end
+    object cdsTablestable_target_name: TStringField
+      FieldName = 'table_target_name'
+      Size = 200
+    end
+    object cdsTablesactivate: TStringField
+      FieldName = 'activate'
+      Size = 1
+    end
+    object cdsTablesmapping_fields: TBlobField
+      FieldName = 'mapping_fields'
+    end
+    object cdsTablessrcCondition: TMemoField
+      FieldName = 'srcCondition'
+      BlobType = ftMemo
+    end
+    object cdsTablestargetCondition: TMemoField
+      FieldName = 'targetCondition'
+      BlobType = ftMemo
+    end
+    object cdsTablesSyncType: TStringField
+      FieldName = 'SyncType'
+      Size = 100
+    end
+  end
+  object dsTables: TDataSource
+    DataSet = cdsTables
+    Left = 112
+    Top = 192
+  end
+end

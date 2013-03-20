@@ -1,0 +1,4 @@
+<Configuration>
+	<HOSxPConfig ADDRESS="localhost" HOSTNAME="www.hosxp.net" USER="root" PASSWORD="123456" DATABASE="hos" TRACKDATE_DD="12" TRACKDATE_MM="01" TRACKDATE_YYYY="2013"/>
+	<ExtConfig ADDRESS="localhost" HOSTNAME="www.hosxp.net" USER="root" PASSWORD="123456" DATABASE="hosxp_gateway" TRACKDATE_DD="12" TRACKDATE_MM="01" TRACKDATE_YYYY="2013"/>
+</Configuration>
