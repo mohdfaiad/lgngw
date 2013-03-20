@@ -1,0 +1,133 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{46D86642-B1AB-426F-A748-B835B801B0BB}</ProjectGuid>
+			<ProjectVersion>12.3</ProjectVersion>
+			<MainSource>HOSxPGW.dpr</MainSource>
+			<Base>True</Base>
+			<Config Condition="'$(Config)'==''">Debug</Config>
+			<Platform>Win32</Platform>
+			<AppType>Application</AppType>
+			<FrameworkType>VCL</FrameworkType>
+			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_1)'!=''">
+			<Cfg_1>true</Cfg_1>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
+			<Cfg_2>true</Cfg_2>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Base)'!=''">
+			<DCC_UsePackage>vclx;vcl;VclSmp;rtl;vclimg;svnui;svn;vclactnband;vcldb;dbrtl;vcldbx;bdertl;vcltouch;xmlrtl;dsnap;dsnapcon;vclib;ibxpress;adortl;IndyCore;IndySystem;IndyProtocols;vclie;inet;websnap;webdsnap;inetdb;inetdbbde;inetdbxpress;soaprtl;vclribbon;dbexpress;DbxCommonDriver;DataSnapIndy10ServerTransport;DataSnapProviderClient;DbxClientDriver;DataSnapClient;dbxcds;DataSnapServer;AzureCloud;DBXInterBaseDriver;DBXMySQLDriver;DBXFirebirdDriver;DBXSybaseASEDriver;DBXSybaseASADriver;DBXOracleDriver;DBXMSSQLDriver;DBXInformixDriver;DBXDb2Driver;RaizeComponentsVcl;RaizeComponentsVclDb;mydacvcl150;mydac150;dacvcl150;dac150;cxLibraryD15;dxCoreD15;cxEditorsD15;cxPageControlD15;dxBarD15;cxBarEditItemD15;dxBarDBNavD15;dxBarExtDBItemsD15;dxBarExtItemsD15;dxRibbonD15;dxTabbedMDID15;dxmdsD15;dxdbtrD15;dxtrmdD15;dxDockingD15;dxNavBarD15;dxdborD15;dxorgcD15;dxLayoutControlD15;dxThemeD15;cxGridD15;cxPivotGridD15;cxSpreadSheetD15;dxGDIPlusD15;dxFlowChartD15;dcldxSkinsCoreD15;dxSkinsCoreD15;dxSkinscxPCPainterD15;dxSkinscxSchedulerPainterD15;cxSchedulerD15;dxSkinsdxNavBarPainterD15;dxSkinsdxDLPainterD15;dxSkinsdxBarPainterD15;dxSkinsdxRibbonPainterD15;cxTreeListD15;cxVerticalGridD15;B305vrXE;ZComponent150;ZDbc150;ZPlain150;ZCore150;ZParseSql150;IW11iPhoneDXE;Intraweb_110_150;iw11tmspland2011;advchartd2011;PsRBD15;upfcoreXE;DCPdelphiXE;IOCore;IOZeosDBO;IOXML;PaxCompiler_D15;OmniThreadLibraryRuntimeXE;AnyDAC_PhysSQLITE_D15;AnyDAC_Phys_D15;AnyDAC_ComI_D15;AnyDAC_PhysPg_D15;AnyDAC_PhysIB_D15;AnyDAC_PhysTDBX_D15;AnyDAC_PhysADS_D15;AnyDAC_PhysASA_D15;AnyDAC_PhysODBC_D15;AnyDAC_PhysOracl_D15;AnyDAC_PhysMySQL_D15;AnyDAC_PhysDb2_D15;AnyDAC_PhysMSSQL_D15;AnyDAC_PhysMSAcc_D15;AnyDAC_GUIxForms_D15;AnyDAC_Comp_D15;acQueryBuilderD15;acQueryBuilderCrMyDACD15;TeeTree2D15Tee9;SynEdit_RXE;DCEF_XE;sbridge150;aureliusxe;PCK_ALCINOE_XE;dclZipForged15;vclZipForged15;dclRBE1215;rbCIDE1215;rbIDE1215;rbRCL1215;rbBDE1215;rbDB1215;dclRBIBE1215;rbIBE1215;rbDAD1215;rbDIDE1215;dclRBADO1215;rbADO1215;dclRBDBE1215;rbDBE1215;rbTCUI1215;rbTC1215;JclDeveloperTools;Jcl;JclVcl;JclContainers;JvCore;JvSystem;JvStdCtrls;JvAppFrm;JvBands;JvDB;JvDlgs;JvBDE;JvControls;JvCmp;JvCrypt;JvCustom;JvDocking;JvDotNetCtrls;JvGlobus;JvHMI;JvJans;JvManagedThreads;JvMM;JvNet;JvPageComps;JvPascalInterpreter;JvPluginSystem;JvPrintPreview;JvRuntimeDesign;JvTimeFramework;JvWizards;JvXPCtrls;mysqlmon150;EhLib150;EhLibDataDrivers150;DisableGradientXE;dcldbxsda150;iw11tmsd2011</DCC_UsePackage>
+			<DCC_DependencyCheckOutputName>%Config%\%Platform%\HOSxPGW.exe</DCC_DependencyCheckOutputName>
+			<DCC_DcuOutput>.\$(Config)\$(Platform)</DCC_DcuOutput>
+			<DCC_ExeOutput>.\$(Config)\$(Platform)</DCC_ExeOutput>
+			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;$(DCC_UnitAlias)</DCC_UnitAlias>
+			<DCC_ImageBase>00400000</DCC_ImageBase>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_1)'!=''">
+			<DCC_DependencyCheckOutputName>..\..\bin\HOSxPGW.exe</DCC_DependencyCheckOutputName>
+			<DCC_DcuOutput>..\..\dcu</DCC_DcuOutput>
+			<DCC_ExeOutput>..\..\bin</DCC_ExeOutput>
+			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+			<DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
+			<DCC_Optimize>false</DCC_Optimize>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_2)'!=''">
+			<DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+			<DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+			<DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+			<DCC_DebugInformation>false</DCC_DebugInformation>
+		</PropertyGroup>
+		<ItemGroup>
+			<DelphiCompile Include="HOSxPGW.dpr">
+				<MainSource>MainSource</MainSource>
+			</DelphiCompile>
+			<DCCReference Include="MainApplicationForm.pas">
+				<Form>FormMainApplication</Form>
+			</DCCReference>
+			<DCCReference Include="HOSxP_gwLIB.pas"/>
+			<DCCReference Include="MappingTablesForm.pas">
+				<Form>formMappingTables</Form>
+			</DCCReference>
+			<DCCReference Include="MappingFieldsForm.pas">
+				<Form>formMappingFields</Form>
+			</DCCReference>
+			<DCCReference Include="SettingSyncSQLForm.pas">
+				<Form>formSettingSyncSQL</Form>
+			</DCCReference>
+			<DCCReference Include="ConfigurationForm.pas">
+				<Form>formConfiguration</Form>
+			</DCCReference>
+			<DCCReference Include="..\LIB\uCiaXml.pas"/>
+			<DCCReference Include="SQLPopUpForm.pas">
+				<Form>FormSQLPopUp</Form>
+			</DCCReference>
+			<DCCReference Include="..\LIB\HOSxP_LabTrack.pas"/>
+			<DCCReference Include="..\LIB\Sha1.pas"/>
+			<DCCReference Include="..\LIB\HOSxP_Logging.pas"/>
+			<BuildConfiguration Include="Release">
+				<Key>Cfg_2</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Base">
+				<Key>Base</Key>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Debug">
+				<Key>Cfg_1</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+		</ItemGroup>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')" Project="$(BDS)\Bin\CodeGear.Delphi.Targets"/>
+		<Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj"/>
+		<ProjectExtensions>
+			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Delphi.Personality>
+					<Source>
+						<Source Name="MainSource">HOSxPGW.dpr</Source>
+					</Source>
+					<VersionInfo>
+						<VersionInfo Name="IncludeVerInfo">True</VersionInfo>
+						<VersionInfo Name="AutoIncBuild">False</VersionInfo>
+						<VersionInfo Name="MajorVer">1</VersionInfo>
+						<VersionInfo Name="MinorVer">56</VersionInfo>
+						<VersionInfo Name="Release">3</VersionInfo>
+						<VersionInfo Name="Build">8</VersionInfo>
+						<VersionInfo Name="Debug">False</VersionInfo>
+						<VersionInfo Name="PreRelease">False</VersionInfo>
+						<VersionInfo Name="Special">False</VersionInfo>
+						<VersionInfo Name="Private">False</VersionInfo>
+						<VersionInfo Name="DLL">False</VersionInfo>
+						<VersionInfo Name="Locale">1054</VersionInfo>
+						<VersionInfo Name="CodePage">874</VersionInfo>
+					</VersionInfo>
+					<VersionInfoKeys>
+						<VersionInfoKeys Name="CompanyName"/>
+						<VersionInfoKeys Name="FileDescription"/>
+						<VersionInfoKeys Name="FileVersion">1.56.3.8</VersionInfoKeys>
+						<VersionInfoKeys Name="InternalName"/>
+						<VersionInfoKeys Name="LegalCopyright"/>
+						<VersionInfoKeys Name="LegalTrademarks"/>
+						<VersionInfoKeys Name="OriginalFilename"/>
+						<VersionInfoKeys Name="ProductName"/>
+						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="Comments"/>
+					</VersionInfoKeys>
+					<Excluded_Packages/>
+					<Parameters/>
+				</Delphi.Personality>
+				<Platforms>
+					<Platform value="Win32">True</Platform>
+				</Platforms>
+			</BorlandProject>
+			<ProjectFileVersion>12</ProjectFileVersion>
+		</ProjectExtensions>
+	</Project>

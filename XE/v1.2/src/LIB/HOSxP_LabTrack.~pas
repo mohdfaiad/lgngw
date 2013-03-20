@@ -1,0 +1,12 @@
+unit HOSxP_LabTrack;
+
+interface
+
+implementation
+
+const
+  hosxp_lab_lis_track ='lab_lis_track';
+  hosxp_lab_lis_track_type:array[0..3] of   String=('ORDER-ENTRY','ORDER-ACCEPT','ORDER-REPORT','ORDER-CANCEL');
+  hosxp_lab_lis_track_gwtype:array[0..6] of String=('ORDER-ACCEPT','ORDER-NONEACCEPT','ORDER-REPORT','ORDER-CANCEL','ORDER-IMAGE','INIT','REQUEST-ACCEPT-NUMBER');
+
+end.

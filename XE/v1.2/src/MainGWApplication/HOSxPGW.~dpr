@@ -1,0 +1,51 @@
+program HOSxPGW;
+
+uses
+  Forms,
+  Dialogs,
+  Windows,
+  MainApplicationForm in 'MainApplicationForm.pas' {FormMainApplication},
+  HOSxP_gwLIB in 'HOSxP_gwLIB.pas',
+  MappingTablesForm in 'MappingTablesForm.pas' {formMappingTables},
+  MappingFieldsForm in 'MappingFieldsForm.pas' {formMappingFields},
+  SettingSyncSQLForm in 'SettingSyncSQLForm.pas' {formSettingSyncSQL},
+  ConfigurationForm in 'ConfigurationForm.pas' {formConfiguration},
+  uCiaXml in '..\LIB\uCiaXml.pas',
+  SQLPopUpForm in 'SQLPopUpForm.pas' {FormSQLPopUp},
+  HOSxP_LabTrack in '..\LIB\HOSxP_LabTrack.pas',
+  BMSEncryptionUtil in '..\LIB\BMSEncryptionUtil.pas';
+
+{$R *.res}
+const
+  versionInfo=5602001;
+
+var AllowExecute:boolean;
+
+
+begin
+  Application.Initialize;
+
+  AllowExecute:=true;
+
+  // control version
+  if HOSxP_gwVersionInfo<>versionInfo then
+  begin
+    Application.MessageBox(pchar('Invalid HOSxP Library'),pchar('Warning'),mb_ok or MB_ICONWARNING);
+    AllowExecute:=false;
+  end;
+
+  if HOSxP_extVersionInfo<>versionInfo then
+  begin
+    Application.MessageBox(pchar('Invalid External Library'),pchar('Warning'),mb_ok or MB_ICONWARNING);
+    AllowExecute:=false;
+  end;
+
+  if AllowExecute then
+  Application.CreateForm(TFormMainApplication, FormMainApplication);
+  Application.CreateForm(TformConfiguration, formConfiguration);
+  Application.CreateForm(TFormSQLPopUp, FormSQLPopUp);
+  //Application.CreateForm(TformSettingSyncSQL, formSettingSyncSQL);
+  //Application.CreateForm(TformMappingTables, formMappingTables);
+  //Application.CreateForm(TformMappingFields, formMappingFields);
+  Application.Run;
+end.
