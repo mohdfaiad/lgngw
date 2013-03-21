@@ -1,9 +1,9 @@
 object formMappingFields: TformMappingFields
   Left = 167
   Top = 40
+  Width = 1031
+  Height = 631
   Caption = 'Mapping Fields'
-  ClientHeight = 604
-  ClientWidth = 1023
   Color = clBtnFace
   Font.Charset = THAI_CHARSET
   Font.Color = clWindowText
@@ -85,8 +85,6 @@ object formMappingFields: TformMappingFields
       Height = 3
       Cursor = crVSplit
       Align = alBottom
-      ExplicitTop = 357
-      ExplicitWidth = 934
     end
     object pnButtom: TRzPanel
       Left = 0
@@ -405,7 +403,7 @@ object formMappingFields: TformMappingFields
   end
   object dsTarget: TDataSource
     DataSet = cdsTarget
-    Left = 600
+    Left = 648
     Top = 128
   end
   object cdsMappingFields: TClientDataSet

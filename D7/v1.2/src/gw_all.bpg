@@ -9,7 +9,7 @@ MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
 DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
-PROJECTS = extcon.dll hosxpcon.dll HOSxPGW.exe
+PROJECTS = extcon.dll hosxpcon.dll HOSxPGW.exe LISEncryptionUtilsLIB.dll
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
@@ -21,6 +21,9 @@ hosxpcon.dll: HOSxPConnectionLIB\hosxpcon.dpr
   $(DCC)
 
 HOSxPGW.exe: MainGWApplication\HOSxPGW.dpr
+  $(DCC)
+
+LISEncryptionUtilsLIB.dll: LISEncryptionUtilsLIB\LISEncryptionUtilsLIB.dpr
   $(DCC)
 
 

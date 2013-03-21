@@ -24,9 +24,9 @@ type
   TgwVersionInfo = function ():integer;
 
   // encryption
-  TgwGetLabOrderNumber = function (LaborderEncrytext:String;LISTrackID:integer;hospcode:string):string; stdcall;
-  TgwGetLabOrderType = function (LabTypetext:String;LISTrackID:integer;hospcode:string):string;stdcall;
-  TgwCheckLisenceGateway = function (hospcode:string):boolean;stdcall;
+  TgwGetLabOrderNumber = function (LaborderEncrytext:String;LISTrackID:integer;hospcode:string):string;
+  TgwGetLabOrderType = function (LabTypetext:String;LISTrackID:integer;hospcode:string):string;
+  TgwCheckLisenceGateway = function (hospcode:string):boolean;
 
 
   TextGetDataSet = function(const SQL: string): Variant;stdcall;
@@ -50,9 +50,9 @@ function HOSxP_extGetDataSet(const SQL: string): Variant;stdcall;
 function HOSxP_extVersionInfo():integer;
 
 // encryption
-function HOSxP_gwGetLabOrderNumber(LaborderEncrytext:String;LISTrackID:integer;hospcode:string):string; stdcall;
-function HOSxP_gwGetLabOrderType(LabTypetext:String;LISTrackID:integer;hospcode:string):string;stdcall;
-function HOSxp_gwCheckLisenceGateway(hospcode:string):boolean;stdcall;
+function HOSxP_gwGetLabOrderNumber(LaborderEncrytext:String;LISTrackID:integer;hospcode:string):string;
+function HOSxP_gwGetLabOrderType(LabTypetext:String;LISTrackID:integer;hospcode:string):string;
+function HOSxp_gwCheckLisenceGateway(hospcode:string):boolean;
 
 
 function checkHosConnection: boolean;
@@ -450,17 +450,17 @@ end;
 
 
 // encryption
-function HOSxP_gwGetLabOrderNumber(LaborderEncrytext:String;LISTrackID:integer;hospcode:string):string; stdcall;
+function HOSxP_gwGetLabOrderNumber(LaborderEncrytext:String;LISTrackID:integer;hospcode:string):string;
 begin
   try
     Encryption_DLLHandle := LoadLibrary(LISEncryptionLIB);
     if checkHosConnection then
     if Encryption_DLLHandle<>0 then
     begin
-       _HOSxP_gwGetLabOrderType := GetProcAddress(Encryption_DLLHandle,'HOSxP_gwGetLabOrderNumber');
-      if Assigned(_HOSxP_gwGetLabOrderType) then
+       _HOSxP_gwGetLabOrderNumber := GetProcAddress(Encryption_DLLHandle,'HOSxP_gwGetLabOrderNumber');
+      if Assigned(_HOSxP_gwGetLabOrderNumber) then
       begin
-           Result := _HOSxP_gwGetLabOrderType(LaborderEncrytext,LISTrackID,hospcode);
+           Result := _HOSxP_gwGetLabOrderNumber(LaborderEncrytext,LISTrackID,hospcode);
       end;
     end;
   finally
@@ -468,7 +468,7 @@ begin
   end;
 end;
 
-function HOSxP_gwGetLabOrderType(LabTypetext:String;LISTrackID:integer;hospcode:string):string;stdcall;
+function HOSxP_gwGetLabOrderType(LabTypetext:String;LISTrackID:integer;hospcode:string):string;
 begin
   try
     Encryption_DLLHandle := LoadLibrary(LISEncryptionLIB);
@@ -486,7 +486,7 @@ begin
   end;
 end;
 
-function HOSxp_gwCheckLisenceGateway(hospcode:string):boolean;stdcall;
+function HOSxp_gwCheckLisenceGateway(hospcode:string):boolean;
 begin
   try
     Encryption_DLLHandle := LoadLibrary(LISEncryptionLIB);
@@ -503,6 +503,8 @@ begin
    FreeLibrary(Encryption_DLLHandle);
   end;
 end;
+
+
 
 
 

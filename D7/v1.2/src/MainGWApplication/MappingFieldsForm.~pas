@@ -154,7 +154,7 @@ const
 
   gw_transfer_type : array[0..3] of string =('Data','FixValue','SQLData','Track');
   track_type : array[0..1] of string =('FixValue','Command');
-  hosxp_lab_lis_track_type:array[0..3] of   String=('ORDER-ENTRY','ORDER-ACCEPT','ORDER-REPORT','ORDER-CANCEL');
+  hosxp_lab_lis_track_type:array[0..4] of   String=('ORDER-ENTRY','ORDER-ACCEPT','ORDER-NONEACCEPT','ORDER-REPORT','ORDER-CANCEL');
   hosxp_lab_lis_track_gwtype:array[0..6] of String=('ORDER-ACCEPT','ORDER-NONEACCEPT','ORDER-REPORT','ORDER-CANCEL','ORDER-IMAGE','INIT','REQUEST-ACCEPT-NUMBER');
 
 
@@ -282,11 +282,28 @@ begin
   cdsTempSrc.Data :=   HOSxP_gwGetDataSet('select * from '+FsrcTableName);
   cdsTempDest.Data :=   HOSxP_extGetDataSet('select * from '+FsrcTableName);
 
-  if not cdsMappingFields.Active then cdsMappingFields.CreateDataSet; 
+  if not cdsMappingFields.Active then cdsMappingFields.CreateDataSet;
+
+
+//  frxReport1.LoadFromFile( sRep ) ;
+//   DM_Main.Cds_Fcode.DisableControls;
+//    try
+//      frxReport1.PrepareReport(true);
+//    if frmMain.ReportDesignMode then
+//      frxReport1.DesignReport
+//    else
+//      frxReport1.ShowPreparedReport;
+//    finally
+//      DM_Main.Cds_Fcode.EnableControls;
+//    end;
+
+
 
   with cdsMappingFields do
   begin
     EmptyDataSet;
+    cdsMappingFields.DisableControls;
+    Screen.Cursor:=crHourGlass;
     for isrcF := 0 to cdsTempSrc.FieldCount-1 do
     begin
 
@@ -311,6 +328,8 @@ begin
       
       Post;
     end;
+    cdsMappingFields.EnableControls;
+    Screen.Cursor:=crDefault;
 
   end;
 end;

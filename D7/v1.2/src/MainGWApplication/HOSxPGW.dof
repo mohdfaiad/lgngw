@@ -114,8 +114,8 @@ IncludeVerInfo=1
 AutoIncBuild=0
 MajorVer=1
 MinorVer=56
-Release=3
-Build=8
+Release=2
+Build=52
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=874
 [Version Info Keys]
 CompanyName=
 FileDescription=
-FileVersion=1.56.3.8
+FileVersion=1.56.2.52
 InternalName=
 LegalCopyright=
 LegalTrademarks=
@@ -134,12 +134,3 @@ OriginalFilename=
 ProductName=
 ProductVersion=1.0.0.0
 Comments=
-[HistoryLists\hlUnitAliases]
-Count=1
-Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
-[HistoryLists\hlUnitOutputDirectory]
-Count=1
-Item0=..\..\dcu
-[HistoryLists\hlOutputDirectorry]
-Count=1
-Item0=..\..\bin

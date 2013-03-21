@@ -3,9 +3,24 @@ unit MainApplicationForm;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,ActiveX,
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DB, DBAccess, MyAccess, DBClient, Provider, MemDS, StdCtrls,
-  ExtCtrls, ComCtrls,  JvExControls, JvNavigationPane,
+  ExtCtrls, ComCtrls, cxGraphics, cxControls, cxLookAndFeels,
+  cxLookAndFeelPainters, cxContainer, cxEdit, dxSkinsCore,
+  dxSkinsDefaultPainters, cxGroupBox, cxLabel, Gauges,ActiveX, dxSkinBlack,
+  dxSkinBlue, dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom,
+  dxSkinDarkSide, dxSkinDevExpressDarkStyle, dxSkinDevExpressStyle,
+  dxSkinFoggy, dxSkinGlassOceans, dxSkinHighContrast, dxSkiniMaginary,
+  dxSkinLilian, dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin,
+  dxSkinMoneyTwins, dxSkinOffice2007Black, dxSkinOffice2007Blue,
+  dxSkinOffice2007Green, dxSkinOffice2007Pink, dxSkinOffice2007Silver,
+  dxSkinOffice2010Black, dxSkinOffice2010Blue, dxSkinOffice2010Silver,
+  dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic, dxSkinSharp,
+  dxSkinSharpPlus, dxSkinSilver, dxSkinSpringTime, dxSkinStardust,
+  dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinValentine, dxSkinVS2010,
+  dxSkinWhiteprint, dxSkinXmas2008Blue, Grids, DBGrids, dxSkinscxPCPainter,
+  cxPCdxBarPopupMenu, cxPC, cxTextEdit,  cxMaskEdit,
+  cxSpinEdit, JvExControls, JvNavigationPane,
   DASQLMonitor, MyDacMonitor, MySQLMonitor;
 
 
@@ -15,6 +30,7 @@ type
     FURL: string;
     FLocal: string;
     FList: TStringList;
+    FlbItemProgress : TcxLabel;
     FListItem: TListItem;
     pbRect: TRect;
     FProgressBar: TProgressBar;
@@ -70,6 +86,12 @@ type
     Button1: TButton;
     Button2: TButton;
     pnRight: TPanel;
+    cxGroupBox1: TcxGroupBox;
+    cxGroupBox4: TcxGroupBox;
+    btnMapping: TButton;
+    btnStartProcess: TButton;
+    btnConfiguration: TButton;
+    cxGroupBox5: TcxGroupBox;
     pnClients: TPanel;
     Splitter2: TSplitter;
     ClientDataSet1: TClientDataSet;
@@ -77,7 +99,28 @@ type
     Panel3: TPanel;
     Panel4: TPanel;
     Splitter3: TSplitter;
+    cxGroupBox6: TcxGroupBox;
+    cxGroupBox7: TcxGroupBox;
+    Button3: TButton;
+    btnStartDrillDownProcess: TButton;
+    Button5: TButton;
+    cxGroupBox8: TcxGroupBox;
+    cxPageControl2: TcxPageControl;
+    cxTabSheet3: TcxTabSheet;
+    cxLabel3: TcxLabel;
+    cxTextEdit1: TcxTextEdit;
+    cxLabel4: TcxLabel;
+    cxTextEdit2: TcxTextEdit;
+    cxTabSheet4: TcxTabSheet;
+    cxLabel7: TcxLabel;
+    cxTextEdit3: TcxTextEdit;
+    cxLabel8: TcxLabel;
+    cxTextEdit4: TcxTextEdit;
     StatusBar2: TStatusBar;
+    btnStopProcess: TButton;
+    spSec: TcxSpinEdit;
+    Label1: TLabel;
+    Label2: TLabel;
     TimerFlatProcess: TTimer;
     ProgressBar: TProgressBar;
     pnRecordInfo: TPanel;
@@ -86,25 +129,25 @@ type
     memoProcessLog: TMemo;
     grpError: TGroupBox;
     MemoError: TMemo;
+    btnClearLog: TButton;
     pnTablesInfo: TPanel;
+    ckMarkTrack: TCheckBox;
     JvNavPanelHeader1: TJvNavPanelHeader;
     TimerAutoStart: TTimer;
     TimerTestConnection: TTimer;
-    MySQLMonitor: TMySQLMonitor;
+    cxLabel1: TcxLabel;
+    edHosDBServer: TcxTextEdit;
+    edHosDBName: TcxTextEdit;
+    cxLabel2: TcxLabel;
+    cxLabel5: TcxLabel;
+    edGwDBServer: TcxTextEdit;
+    edGwDBName: TcxTextEdit;
+    cxLabel6: TcxLabel;
+    lbHosConnStatus: TcxLabel;
+    lbGwConnStatus: TcxLabel;
     MyQuery: TMyQuery;
     MyConnection: TMyConnection;
     dsp: TDataSetProvider;
-    btnMapping: TButton;
-    btnConfiguration: TButton;
-    btnStopProcess: TButton;
-    btnStartProcess: TButton;
-    btnClearLog: TButton;
-    lbHosConnStatus: TLabel;
-    lbGwConnStatus: TLabel;
-    edGwDBName: TEdit;
-    edGwDBServer: TEdit;
-    edHosDBName: TEdit;
-    edHosDBServer: TEdit;
     procedure btnMappingClick(Sender: TObject);
     procedure btnStartProcessClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -116,8 +159,6 @@ type
     procedure Button1Click(Sender: TObject);
     procedure TimerAutoStartTimer(Sender: TObject);
     procedure TimerTestConnectionTimer(Sender: TObject);
-    procedure MySQLMonitorSQL(Sender: TObject; Text: string;
-      Flag: TDATraceFlag);
   private
     FStopProcess: boolean;
     FCanStartProcess: boolean;
@@ -192,7 +233,7 @@ end;
 procedure TFormMainApplication.btnStartProcessClick(Sender: TObject);
 begin
  FCanStartProcess := true;
- TimerFlatProcess.Interval := 2;//spSec.Value*1000;
+ TimerFlatProcess.Interval := spSec.Value*1000;
  TimerFlatProcess.Enabled:=true;
  btnStartProcess.Enabled:=false;
 
@@ -1057,7 +1098,7 @@ begin
               while not cdsGwLabTrack.Eof do
               if cdsGwLabTrack.FieldByName('lab_lis_track_datetime').AsDateTime>=getGwTrackDate then
               begin
-                 // if  FormMainApplication.ckMarkTrack.Checked then
+                  if  FormMainApplication.ckMarkTrack.Checked then
                     if  (TrackType='REQUEST-ACCEPT-NUMBER') then
                     begin
                       cdsUpdateGwLabTrack.Data := HOSxP_extGetDataSet('select * from login_lab_lis_track where lab_lis_track_id='+inttostr(cdsGwLabTrack.FieldByName('lab_lis_track_id').AsInteger));
@@ -1139,7 +1180,7 @@ begin
               end;
 
              //================================================================================
-//              if  FormMainApplication.ckMarkTrack.Checked then
+              if  FormMainApplication.ckMarkTrack.Checked then
               if  ( TrackType<>'') and (TrackType<>'INIT') then
               begin
                 cdsUpdateGwLabTrack.Data := HOSxP_extGetDataSet('select * from login_lab_lis_track where lab_lis_track_id='+inttostr(cdsGwLabTrack.FieldByName('lab_lis_track_id').AsInteger));
@@ -1219,7 +1260,7 @@ begin
                   end;
 
                  //================================================================================
-//                  if  FormMainApplication.ckMarkTrack.Checked then
+                  if  FormMainApplication.ckMarkTrack.Checked then
                   if  (TrackType='INIT') then
                   begin
                     cdsUpdateGwLabTrack.Data := HOSxP_extGetDataSet('select * from login_lab_lis_track where lab_lis_track_id='+inttostr(cdsGwLabTrack.FieldByName('lab_lis_track_id').AsInteger));
@@ -1346,14 +1387,14 @@ begin
 
                      //================================================================================
                      // mask track
-//                    if  FormMainApplication.ckMarkTrack.Checked then
+                    if  FormMainApplication.ckMarkTrack.Checked then
                     begin
                       cdsUpdateHosLabTrack.Data := HOSxP_gwGetDataSet('select * from lab_lis_track where lab_lis_track_id='+inttostr(cdsHosLabTrack.FieldByName('lab_lis_track_id').AsInteger));
                       if not (cdsUpdateHosLabTrack.State in [dsInsert,dsEdit]) then cdsUpdateHosLabTrack.Edit;
                       cdsUpdateHosLabTrack.FieldByName('gateway_flag').AsString:='1';
                       cdsUpdateHosLabTrack.Post;
-                      //HOSxP_gwUpdateDelta(cdsUpdateHosLabTrack.Delta,'select * from lab_lis_track where lab_lis_track_id='+inttostr(cdsHosLabTrack.FieldByName('lab_lis_track_id').AsInteger));
-                      HOSxP_gwUpdateDeltaA(FormMainApplication.MyConnection,FormMainApplication.MyQuery,FormMainApplication.dsp,cdsUpdateHosLabTrack.Delta,'select * from lab_lis_track where lab_lis_track_id='+inttostr(cdsHosLabTrack.FieldByName('lab_lis_track_id').AsInteger));
+                      HOSxP_gwUpdateDelta(cdsUpdateHosLabTrack.Delta,'select * from lab_lis_track where lab_lis_track_id='+inttostr(cdsHosLabTrack.FieldByName('lab_lis_track_id').AsInteger));
+                      //HOSxP_gwUpdateDeltaA(FormMainApplication.MyConnection,FormMainApplication.MyQuery,FormMainApplication.dsp,cdsUpdateHosLabTrack.Delta,'select * from lab_lis_track where lab_lis_track_id='+inttostr(cdsHosLabTrack.FieldByName('lab_lis_track_id').AsInteger));
                     end;
 
                     // update gateway track
@@ -1507,28 +1548,6 @@ begin
   result:='['+FormatDateTime('dd-MM-yyyy hh:mm:ss',Now)+']';
 end;
 
-procedure TFormMainApplication.MySQLMonitorSQL(Sender: TObject;
-  Text: string; Flag: TDATraceFlag);
-begin
-
-
-  if (copy(Text,0,6) = 'DELETE') or (copy(Text,0,6) = 'UPDATE') or (copy(Text,0,6) = 'INSERT') then
-    HOSxP_gwExecuteSQL('insert into replicate_log value (null,"'+FormatDateTime('yyyy-mm-dd hh:nn:ss',now)+'","LIS-GATEWAY","'+Text+'")');
-
-
-{  Text:=ReplaceSTR(trim(Text),'`','');
-  Text:=ReplaceSTR(trim(Text),#13#10,' ');
-  if (copy(Text,0,6) = 'DELETE') or (copy(Text,0,6) = 'UPDATE') or (copy(Text,0,6) = 'INSERT') then
-  begin
-     memoProcessLog.Lines.Add('insert into replicate_log value (null,"'+FormatDateTime('yyyy-mm-dd hh:nn:ss',now)+'","LIS-GATEWAY","'+Text+'")');
-  end;
-}
-
-  //MyQuery1.SQL.Text:=' select * from hos.replicate_log limit 1 ';
-  //MyQuery1.Execute;
-  //MemoError.Lines.Add('SQL >>>>> : '+text);
-end;
-
 procedure TFormMainApplication.Button1Click(Sender: TObject);
 var
   flen,vlen
@@ -1585,7 +1604,7 @@ begin
           varString    : conSql := 'varString';
           varAny       : conSql := 'varAny';
           varTypeMask  : conSql := 'varTypeMask';
-         // varUString   : conSql :='varUString';
+//          varUString   : conSql :='varUString';
         end;
 
     end;
@@ -1617,12 +1636,12 @@ begin
           cdsLabTrack.First;
           while not cdsLabTrack.Eof do
           begin
-            DeCryptText := HOSxP_gwGetLabOrderNumber(cdsLabTrack.FieldByName('lab_order_number').asstring,cdsLabTrack.FieldByName('lab_lis_track_id').AsInteger,hospitalcode);
+            //DeCryptText := HOSxP_gwGetLabOrderNumber(cdsLabTrack.FieldByName('lab_order_number').asstring,cdsLabTrack.FieldByName('lab_lis_track_id').AsInteger,hospitalcode);
             if trim(DeCryptText)<>'' then
             order_number := StrToInt(DeCryptText);
 
             track_type:='';
-            DeCryptText := HOSxP_gwGetLabOrderType(cdsLabTrack.FieldByName('lab_lis_track_type').asstring,cdsLabTrack.FieldByName('lab_lis_track_id').AsInteger,hospitalcode);
+            //DeCryptText := HOSxP_gwGetLabOrderType(cdsLabTrack.FieldByName('lab_lis_track_type').asstring,cdsLabTrack.FieldByName('lab_lis_track_id').AsInteger,hospitalcode);
             if trim(DeCryptText)<>'' then
             track_type := DeCryptText;
 
@@ -1641,8 +1660,8 @@ begin
 
           end;
         end;
-        //HOSxP_gwUpdateDelta(cdsLabTrack.Delta,'select * from lab_lis_track');
-        HOSxP_gwUpdateDeltaA(FormMainApplication.MyConnection,FormMainApplication.MyQuery,FormMainApplication.dsp,cdsLabTrack.Delta,'select * from lab_lis_track');
+        HOSxP_gwUpdateDelta(cdsLabTrack.Delta,'select * from lab_lis_track');
+        //HOSxP_gwUpdateDeltaA(FormMainApplication.MyConnection,FormMainApplication.MyQuery,FormMainApplication.dsp,cdsLabTrack.Delta,'select * from lab_lis_track');
     end;
 end;
 
@@ -1674,17 +1693,17 @@ begin
        edGwDBName.Text:=_app_database;
 
        _app_address:= xmlConn.ReadString('HOSxPConfig','ADDRESS','');
-
+       {
        MySQLMonitor.Active:=false;
        MySQLMonitor.DBMonitorOptions.Host:=_app_address;
        MySQLMonitor.Active:=true;
-
+       }
        _app_database:=xmlConn.ReadString('HOSxPConfig','DATABASE','');
 
        edHosDBServer.Text:=_app_address;
        edHosDBName.Text:=_app_database;
 
-       MySQLMonitor.DBMonitorOptions.Host:=_app_address;
+       //MySQLMonitor.DBMonitorOptions.Host:=_app_address;
        xmlConn.Free;
 
     end;

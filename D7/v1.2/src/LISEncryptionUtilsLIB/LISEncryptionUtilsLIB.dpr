@@ -16,18 +16,37 @@ uses
 
 {$R *.res}
 
-function HOSxP_gwGetLabOrderNumber(LaborderEncrytext:String;LISTrackID:integer;hospcode:string):string; stdcall;
+function HOSxP_gwCheckLisenceGateway (hospcode:string):boolean;
 begin
-  Result := GetLabOrderNumber(LaborderEncrytext,LISTrackID,hospcode);
+  Result := CheckLisenceGateway(hospcode);
 end;
 
-function HOSxP_gwGetLabOrderType(LabTypetext:String;LISTrackID:integer;hospcode:string):string;stdcall;
+function HOSxP_gwGetLabOrderNumber(LaborderEncrytext:String;LISTrackID:integer;hospcode:string):pchar;
+var rep : string;
 begin
-  Result := GetLabOrderType(LabTypetext,LISTrackID,hospcode);
+  rep := GetLabOrderNumber(LaborderEncrytext,LISTrackID,hospcode);
+  GetMem( Result, length( rep ) +1 );
+  StrPCopy( Result, rep )
+end;
+
+function HOSxP_gwGetLabOrderType(LabTypetext:String;LISTrackID:integer;hospcode:string):pchar;
+var rep : string;
+begin
+  rep := GetLabOrderType(LabTypetext,LISTrackID,hospcode);
+  GetMem( Result, length( rep ) +1 );
+  StrPCopy( Result, rep )
+end;
+
+function HOSxP_gwGetLabOrderResult(LabOrderNumber,LISItemcode:integer;hospcode:string):pchar;
+var rep : string;
+begin
+  rep := GetLabOrderResult(LabOrderNumber,LISItemcode,hospcode);
+  GetMem( Result, length( rep ) +1 );
+  StrPCopy( Result, rep )
 end;
 
 exports
-   HOSxP_gwGetLabOrderNumber,HOSxP_gwGetLabOrderType;
+   HOSxP_gwGetLabOrderNumber,HOSxP_gwGetLabOrderType,HOSxP_gwCheckLisenceGateway,HOSxP_gwGetLabOrderResult;
 
 begin
 end.

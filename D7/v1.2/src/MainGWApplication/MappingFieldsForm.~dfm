@@ -1,9 +1,9 @@
 object formMappingFields: TformMappingFields
   Left = 167
   Top = 40
-  Width = 1127
-  Height = 670
   Caption = 'Mapping Fields'
+  ClientHeight = 604
+  ClientWidth = 1023
   Color = clBtnFace
   Font.Charset = THAI_CHARSET
   Font.Color = clWindowText
@@ -17,10 +17,10 @@ object formMappingFields: TformMappingFields
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
-    Left = 934
+    Left = 838
     Top = 0
     Width = 185
-    Height = 643
+    Height = 604
     Align = alRight
     TabOrder = 0
     object btnCancel: TButton
@@ -73,23 +73,25 @@ object formMappingFields: TformMappingFields
   object pnAllClients: TRzPanel
     Left = 0
     Top = 0
-    Width = 934
-    Height = 643
+    Width = 838
+    Height = 604
     Align = alClient
     BorderOuter = fsNone
     TabOrder = 1
     object Splitter1: TSplitter
       Left = 0
-      Top = 357
-      Width = 934
+      Top = 318
+      Width = 838
       Height = 3
       Cursor = crVSplit
       Align = alBottom
+      ExplicitTop = 357
+      ExplicitWidth = 934
     end
     object pnButtom: TRzPanel
       Left = 0
-      Top = 360
-      Width = 934
+      Top = 321
+      Width = 838
       Height = 283
       Align = alBottom
       BorderOuter = fsNone
@@ -97,7 +99,7 @@ object formMappingFields: TformMappingFields
       object PageControl1: TPageControl
         Left = 0
         Top = 0
-        Width = 934
+        Width = 838
         Height = 283
         ActivePage = TabSheet1
         Align = alClient
@@ -107,7 +109,7 @@ object formMappingFields: TformMappingFields
           object grdTrackTranfers: TcxGrid
             Left = 0
             Top = 0
-            Width = 926
+            Width = 830
             Height = 255
             Align = alClient
             Font.Charset = THAI_CHARSET
@@ -166,7 +168,7 @@ object formMappingFields: TformMappingFields
           object cxGrid3: TcxGrid
             Left = 0
             Top = 0
-            Width = 926
+            Width = 830
             Height = 255
             Align = alClient
             Font.Charset = THAI_CHARSET
@@ -224,16 +226,16 @@ object formMappingFields: TformMappingFields
     object pnTop: TRzPanel
       Left = 0
       Top = 0
-      Width = 934
-      Height = 357
+      Width = 838
+      Height = 318
       Align = alClient
       BorderOuter = fsNone
       TabOrder = 1
       object grdFields: TcxGrid
         Left = 0
         Top = 0
-        Width = 934
-        Height = 357
+        Width = 838
+        Height = 318
         Align = alClient
         Font.Charset = THAI_CHARSET
         Font.Color = clWindowText
@@ -532,6 +534,7 @@ object formMappingFields: TformMappingFields
     Params = <>
     BeforePost = cdsTrackTranferDataBeforePost
     AfterPost = cdsTrackTranferDataAfterPost
+    AfterDelete = cdsTrackTranferDataAfterPost
     Left = 172
     Top = 440
     Data = {
@@ -568,6 +571,7 @@ object formMappingFields: TformMappingFields
     Params = <>
     BeforePost = cdsTrackAsyncDataBeforePost
     AfterPost = cdsTrackAsyncDataAfterPost
+    AfterDelete = cdsTrackAsyncDataAfterPost
     Left = 580
     Top = 416
     Data = {

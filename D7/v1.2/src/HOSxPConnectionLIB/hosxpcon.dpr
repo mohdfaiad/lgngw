@@ -58,7 +58,7 @@ begin
       Password:=_app_password;
       Server:= _app_address;
       Username:= _app_user;
-      Options.Charset:='tis620';
+      //Options.Charset:='tis620';
 
       Connected:=true;
       rep:=true;

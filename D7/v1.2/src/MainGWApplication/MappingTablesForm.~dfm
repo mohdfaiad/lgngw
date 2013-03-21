@@ -1,9 +1,9 @@
 object formMappingTables: TformMappingTables
   Left = 236
   Top = 77
-  Width = 925
-  Height = 574
   Caption = 'Mapping Tables'
+  ClientHeight = 587
+  ClientWidth = 1012
   Color = clBtnFace
   Font.Charset = THAI_CHARSET
   Font.Color = clWindowText
@@ -18,17 +18,19 @@ object formMappingTables: TformMappingTables
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
-    Top = 506
-    Width = 917
+    Top = 546
+    Width = 1012
     Height = 41
     Align = alBottom
     BevelOuter = bvLowered
     TabOrder = 0
+    ExplicitTop = 506
+    ExplicitWidth = 917
     DesignSize = (
-      917
+      1012
       41)
     object btnOK: TButton
-      Left = 758
+      Left = 853
       Top = 6
       Width = 75
       Height = 25
@@ -36,9 +38,10 @@ object formMappingTables: TformMappingTables
       Caption = 'OK'
       TabOrder = 0
       OnClick = btnOKClick
+      ExplicitLeft = 758
     end
     object btnCancel: TButton
-      Left = 839
+      Left = 934
       Top = 6
       Width = 75
       Height = 25
@@ -46,21 +49,26 @@ object formMappingTables: TformMappingTables
       Caption = 'Cancel'
       TabOrder = 1
       OnClick = btnCancelClick
+      ExplicitLeft = 839
     end
   end
   object cxGrid1: TcxGrid
     Left = 0
     Top = 0
-    Width = 917
-    Height = 506
+    Width = 1012
+    Height = 546
     Align = alClient
     TabOrder = 1
+    LookAndFeel.Kind = lfStandard
+    ExplicitWidth = 917
+    ExplicitHeight = 506
     object cxGrid1DBTableView1: TcxGridDBTableView
       Navigator.Visible = True
       DataController.DataSource = dsTables
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      OptionsView.GridLines = glNone
       OptionsView.GroupByBox = False
       object cxGrid1DBTableView1Column1: TcxGridDBColumn
         Caption = 'No.'
@@ -79,6 +87,12 @@ object formMappingTables: TformMappingTables
         DataBinding.FieldName = 'table_target_name'
         Options.Sorting = False
         Width = 246
+      end
+      object cxGrid1DBTableView1SyncType: TcxGridDBColumn
+        DataBinding.FieldName = 'SyncType'
+        PropertiesClassName = 'TcxComboBoxProperties'
+        Properties.DropDownListStyle = lsFixedList
+        Width = 100
       end
       object cxGrid1DBTableView1activate: TcxGridDBColumn
         Caption = 'Active'
@@ -144,7 +158,7 @@ object formMappingTables: TformMappingTables
     Left = 112
     Top = 120
     Data = {
-      0A0100009619E0BD0100000018000000070000000000030000000A0102696404
+      270100009619E0BD010000001800000008000000000003000000270102696404
       000100000000000E7461626C655F7372635F6E616D6501004900000001000557
       4944544802000200C800117461626C655F7461726765745F6E616D6501004900
       0000010005574944544802000200C80008616374697661746501004900000001
@@ -152,7 +166,8 @@ object formMappingTables: TformMappingTables
       00000100075355425459504502004900070042696E617279000C737263436F6E
       646974696F6E04004B0000000100075355425459504502004900050054657874
       000F746172676574436F6E646974696F6E04004B000000010007535542545950
-      4502004900050054657874000000}
+      4502004900050054657874000853796E63547970650100490000000100055749
+      4454480200020064000000}
     object cdsTablesid: TIntegerField
       FieldName = 'id'
     end
@@ -178,6 +193,10 @@ object formMappingTables: TformMappingTables
     object cdsTablestargetCondition: TMemoField
       FieldName = 'targetCondition'
       BlobType = ftMemo
+    end
+    object cdsTablesSyncType: TStringField
+      FieldName = 'SyncType'
+      Size = 100
     end
   end
   object dsTables: TDataSource

@@ -89,96 +89,305 @@ object FormMainApplication: TFormMainApplication
         Height = 412
         Align = alRight
         TabOrder = 1
-        object lbHosConnStatus: TLabel
-          Left = 16
-          Top = 264
-          Width = 82
-          Height = 13
-          Caption = 'lbHosConnStatus'
-        end
-        object lbGwConnStatus: TLabel
-          Left = 24
-          Top = 312
-          Width = 79
-          Height = 13
-          Caption = 'lbGwConnStatus'
-        end
-        object btnMapping: TButton
-          Left = 4
-          Top = 21
-          Width = 98
-          Height = 25
-          Caption = 'Mapping'
+        object cxGroupBox1: TcxGroupBox
+          Left = 1
+          Top = 1
+          Align = alClient
+          Caption = 'Status'
+          Style.LookAndFeel.SkinName = 'UserSkin'
+          StyleDisabled.LookAndFeel.SkinName = 'UserSkin'
+          StyleFocused.LookAndFeel.SkinName = 'UserSkin'
+          StyleHot.LookAndFeel.SkinName = 'UserSkin'
           TabOrder = 0
-          OnClick = btnMappingClick
-        end
-        object btnConfiguration: TButton
-          Left = 105
-          Top = 21
-          Width = 81
-          Height = 25
-          Caption = 'Configuration'
-          TabOrder = 1
-          OnClick = btnConfigurationClick
-        end
-        object btnStopProcess: TButton
-          Left = 105
-          Top = 52
-          Width = 81
-          Height = 25
-          Caption = 'Stop'
-          TabOrder = 2
-          OnClick = btnStopProcessClick
-        end
-        object btnStartProcess: TButton
-          Left = 4
-          Top = 52
-          Width = 98
-          Height = 25
-          Caption = 'Start Process'
-          TabOrder = 3
-          OnClick = btnStartProcessClick
-        end
-        object btnClearLog: TButton
-          Left = 190
-          Top = 52
-          Width = 68
-          Height = 25
-          Caption = 'Clear Log'
-          TabOrder = 4
-          OnClick = btnClearLogClick
-        end
-        object edGwDBName: TEdit
-          Left = 112
-          Top = 256
-          Width = 145
-          Height = 21
-          TabOrder = 5
-          Text = 'edGwDBName'
-        end
-        object edGwDBServer: TEdit
-          Left = 112
-          Top = 224
-          Width = 121
-          Height = 21
-          TabOrder = 6
-          Text = 'edGwDBServer'
-        end
-        object edHosDBName: TEdit
-          Left = 112
-          Top = 176
-          Width = 121
-          Height = 21
-          TabOrder = 7
-          Text = 'edHosDBName'
-        end
-        object edHosDBServer: TEdit
-          Left = 112
-          Top = 112
-          Width = 121
-          Height = 21
-          TabOrder = 8
-          Text = 'edHosDBServer'
+          Height = 410
+          Width = 268
+          object cxGroupBox4: TcxGroupBox
+            Left = 3
+            Top = 15
+            Align = alTop
+            Caption = ' Controller '
+            Style.LookAndFeel.Kind = lfStandard
+            StyleDisabled.LookAndFeel.Kind = lfStandard
+            StyleFocused.LookAndFeel.Kind = lfStandard
+            StyleHot.LookAndFeel.Kind = lfStandard
+            TabOrder = 0
+            Transparent = True
+            Height = 162
+            Width = 262
+            object Label1: TLabel
+              Left = 102
+              Top = 89
+              Width = 21
+              Height = 13
+              Caption = 'Sec.'
+              Transparent = True
+            end
+            object Label2: TLabel
+              Left = 14
+              Top = 88
+              Width = 26
+              Height = 13
+              Caption = 'Timer'
+              Transparent = True
+            end
+            object btnMapping: TButton
+              Left = 4
+              Top = 21
+              Width = 98
+              Height = 25
+              Caption = 'Mapping'
+              TabOrder = 0
+              OnClick = btnMappingClick
+            end
+            object btnStartProcess: TButton
+              Left = 4
+              Top = 52
+              Width = 98
+              Height = 25
+              Caption = 'Start Process'
+              TabOrder = 1
+              OnClick = btnStartProcessClick
+            end
+            object btnConfiguration: TButton
+              Left = 105
+              Top = 21
+              Width = 81
+              Height = 25
+              Caption = 'Configuration'
+              TabOrder = 2
+              OnClick = btnConfigurationClick
+            end
+            object btnStopProcess: TButton
+              Left = 105
+              Top = 52
+              Width = 81
+              Height = 25
+              Caption = 'Stop'
+              TabOrder = 3
+              OnClick = btnStopProcessClick
+            end
+            object spSec: TcxSpinEdit
+              Left = 48
+              Top = 85
+              ParentFont = False
+              Properties.MinValue = 1.000000000000000000
+              Style.Font.Charset = THAI_CHARSET
+              Style.Font.Color = clWindowText
+              Style.Font.Height = -11
+              Style.Font.Name = 'Tahoma'
+              Style.Font.Style = [fsBold]
+              Style.IsFontAssigned = True
+              TabOrder = 4
+              Value = 10
+              Width = 49
+            end
+            object btnClearLog: TButton
+              Left = 190
+              Top = 52
+              Width = 68
+              Height = 25
+              Caption = 'Clear Log'
+              TabOrder = 5
+              OnClick = btnClearLogClick
+            end
+            object ckMarkTrack: TCheckBox
+              Left = 24
+              Top = 128
+              Width = 97
+              Height = 17
+              Caption = 'MarkTrack'
+              Checked = True
+              State = cbChecked
+              TabOrder = 6
+              Visible = False
+            end
+          end
+          object cxGroupBox5: TcxGroupBox
+            Left = 3
+            Top = 177
+            Align = alClient
+            Caption = ' Database Infomation '
+            Style.LookAndFeel.Kind = lfStandard
+            StyleDisabled.LookAndFeel.Kind = lfStandard
+            StyleFocused.LookAndFeel.Kind = lfStandard
+            StyleHot.LookAndFeel.Kind = lfStandard
+            TabOrder = 1
+            Transparent = True
+            Height = 223
+            Width = 262
+            object cxLabel1: TcxLabel
+              Left = 5
+              Top = 32
+              AutoSize = False
+              Caption = 'HOS DB Server '
+              ParentFont = False
+              Style.Font.Charset = THAI_CHARSET
+              Style.Font.Color = clWindowText
+              Style.Font.Height = -11
+              Style.Font.Name = 'Tahoma'
+              Style.Font.Style = []
+              Style.LookAndFeel.Kind = lfUltraFlat
+              Style.IsFontAssigned = True
+              StyleDisabled.LookAndFeel.Kind = lfUltraFlat
+              StyleFocused.LookAndFeel.Kind = lfUltraFlat
+              StyleHot.LookAndFeel.Kind = lfUltraFlat
+              Transparent = True
+              Height = 26
+              Width = 105
+            end
+            object edHosDBServer: TcxTextEdit
+              Left = 111
+              Top = 29
+              AutoSize = False
+              ParentFont = False
+              Properties.ReadOnly = True
+              Style.Color = clSilver
+              Style.Font.Charset = THAI_CHARSET
+              Style.Font.Color = clWindowText
+              Style.Font.Height = -11
+              Style.Font.Name = 'Tahoma'
+              Style.Font.Style = [fsBold]
+              Style.IsFontAssigned = True
+              TabOrder = 1
+              Height = 24
+              Width = 147
+            end
+            object edHosDBName: TcxTextEdit
+              Left = 111
+              Top = 53
+              AutoSize = False
+              ParentFont = False
+              Properties.ReadOnly = True
+              Style.Color = clSilver
+              Style.Font.Charset = THAI_CHARSET
+              Style.Font.Color = clWindowText
+              Style.Font.Height = -11
+              Style.Font.Name = 'Tahoma'
+              Style.Font.Style = [fsBold]
+              Style.IsFontAssigned = True
+              TabOrder = 2
+              Height = 24
+              Width = 147
+            end
+            object cxLabel2: TcxLabel
+              Left = 5
+              Top = 56
+              AutoSize = False
+              Caption = 'HOS DB Name '
+              ParentFont = False
+              Style.Font.Charset = THAI_CHARSET
+              Style.Font.Color = clWindowText
+              Style.Font.Height = -11
+              Style.Font.Name = 'Tahoma'
+              Style.Font.Style = []
+              Style.IsFontAssigned = True
+              Transparent = True
+              Height = 26
+              Width = 110
+            end
+            object cxLabel5: TcxLabel
+              Left = 5
+              Top = 104
+              AutoSize = False
+              Caption = 'Gateway DB Server '
+              ParentFont = False
+              Style.Font.Charset = THAI_CHARSET
+              Style.Font.Color = clWindowText
+              Style.Font.Height = -11
+              Style.Font.Name = 'Tahoma'
+              Style.Font.Style = []
+              Style.LookAndFeel.Kind = lfUltraFlat
+              Style.IsFontAssigned = True
+              StyleDisabled.LookAndFeel.Kind = lfUltraFlat
+              StyleFocused.LookAndFeel.Kind = lfUltraFlat
+              StyleHot.LookAndFeel.Kind = lfUltraFlat
+              Transparent = True
+              Height = 26
+              Width = 105
+            end
+            object edGwDBServer: TcxTextEdit
+              Left = 111
+              Top = 101
+              AutoSize = False
+              ParentFont = False
+              Properties.ReadOnly = True
+              Style.Color = clSilver
+              Style.Font.Charset = THAI_CHARSET
+              Style.Font.Color = clWindowText
+              Style.Font.Height = -11
+              Style.Font.Name = 'Tahoma'
+              Style.Font.Style = [fsBold]
+              Style.IsFontAssigned = True
+              TabOrder = 5
+              Height = 24
+              Width = 147
+            end
+            object edGwDBName: TcxTextEdit
+              Left = 111
+              Top = 125
+              AutoSize = False
+              ParentFont = False
+              Properties.ReadOnly = True
+              Style.Color = clSilver
+              Style.Font.Charset = THAI_CHARSET
+              Style.Font.Color = clWindowText
+              Style.Font.Height = -11
+              Style.Font.Name = 'Tahoma'
+              Style.Font.Style = [fsBold]
+              Style.IsFontAssigned = True
+              TabOrder = 6
+              Height = 24
+              Width = 147
+            end
+            object cxLabel6: TcxLabel
+              Left = 5
+              Top = 128
+              AutoSize = False
+              Caption = 'Gateway DB Name '
+              ParentFont = False
+              Style.Font.Charset = THAI_CHARSET
+              Style.Font.Color = clWindowText
+              Style.Font.Height = -11
+              Style.Font.Name = 'Tahoma'
+              Style.Font.Style = []
+              Style.IsFontAssigned = True
+              Transparent = True
+              Height = 26
+              Width = 110
+            end
+            object lbHosConnStatus: TcxLabel
+              Left = 5
+              Top = 79
+              AutoSize = False
+              Caption = 'Not Connect.'
+              ParentFont = False
+              Style.Font.Charset = THAI_CHARSET
+              Style.Font.Color = clNavy
+              Style.Font.Height = -11
+              Style.Font.Name = 'Tahoma'
+              Style.Font.Style = [fsBold]
+              Style.IsFontAssigned = True
+              Transparent = True
+              Height = 26
+              Width = 253
+            end
+            object lbGwConnStatus: TcxLabel
+              Left = 4
+              Top = 151
+              AutoSize = False
+              Caption = 'Not Connect.'
+              ParentFont = False
+              Style.Font.Charset = THAI_CHARSET
+              Style.Font.Color = clNavy
+              Style.Font.Height = -11
+              Style.Font.Name = 'Tahoma'
+              Style.Font.Style = [fsBold]
+              Style.IsFontAssigned = True
+              Transparent = True
+              Height = 26
+              Width = 253
+            end
+          end
         end
       end
       object pnClients: TPanel
@@ -256,6 +465,211 @@ object FormMainApplication: TFormMainApplication
         Height = 321
         Align = alRight
         TabOrder = 0
+        object cxGroupBox6: TcxGroupBox
+          Left = 1
+          Top = 1
+          Align = alClient
+          Caption = 'Status'
+          Style.LookAndFeel.SkinName = 'UserSkin'
+          StyleDisabled.LookAndFeel.SkinName = 'UserSkin'
+          StyleFocused.LookAndFeel.SkinName = 'UserSkin'
+          StyleHot.LookAndFeel.SkinName = 'UserSkin'
+          TabOrder = 0
+          Height = 319
+          Width = 268
+          object cxGroupBox7: TcxGroupBox
+            Left = 3
+            Top = 15
+            Align = alTop
+            Caption = ' Controller '
+            Style.LookAndFeel.Kind = lfStandard
+            StyleDisabled.LookAndFeel.Kind = lfStandard
+            StyleFocused.LookAndFeel.Kind = lfStandard
+            StyleHot.LookAndFeel.Kind = lfStandard
+            TabOrder = 0
+            Transparent = True
+            Height = 122
+            Width = 262
+            object Button3: TButton
+              Left = 16
+              Top = 21
+              Width = 81
+              Height = 25
+              Caption = 'Mapping'
+              TabOrder = 0
+              OnClick = btnMappingClick
+            end
+            object btnStartDrillDownProcess: TButton
+              Left = 16
+              Top = 52
+              Width = 81
+              Height = 25
+              Caption = 'Start Process'
+              TabOrder = 1
+            end
+            object Button5: TButton
+              Left = 104
+              Top = 21
+              Width = 81
+              Height = 25
+              Caption = 'Configuration'
+              TabOrder = 2
+              OnClick = btnConfigurationClick
+            end
+          end
+          object cxGroupBox8: TcxGroupBox
+            Left = 3
+            Top = 137
+            Align = alClient
+            Caption = ' Database Infomation '
+            Style.LookAndFeel.Kind = lfStandard
+            StyleDisabled.LookAndFeel.Kind = lfStandard
+            StyleFocused.LookAndFeel.Kind = lfStandard
+            StyleHot.LookAndFeel.Kind = lfStandard
+            TabOrder = 1
+            Transparent = True
+            DesignSize = (
+              262
+              172)
+            Height = 172
+            Width = 262
+            object cxPageControl2: TcxPageControl
+              Left = 3
+              Top = 13
+              Width = 258
+              Height = 158
+              Anchors = [akLeft, akTop, akRight, akBottom]
+              TabOrder = 0
+              Properties.ActivePage = cxTabSheet3
+              LookAndFeel.Kind = lfStandard
+              LookAndFeel.SkinName = 'UserSkin'
+              ClientRectBottom = 152
+              ClientRectLeft = 3
+              ClientRectRight = 252
+              ClientRectTop = 26
+              object cxTabSheet3: TcxTabSheet
+                Caption = ' HOSxP  '
+                ImageIndex = 0
+                object cxLabel3: TcxLabel
+                  Left = 0
+                  Top = 8
+                  AutoSize = False
+                  Caption = 'DB Server :'
+                  Style.LookAndFeel.Kind = lfUltraFlat
+                  StyleDisabled.LookAndFeel.Kind = lfUltraFlat
+                  StyleFocused.LookAndFeel.Kind = lfUltraFlat
+                  StyleHot.LookAndFeel.Kind = lfUltraFlat
+                  Transparent = True
+                  Height = 26
+                  Width = 105
+                end
+                object cxTextEdit1: TcxTextEdit
+                  Left = 70
+                  Top = 5
+                  AutoSize = False
+                  ParentFont = False
+                  Properties.ReadOnly = True
+                  Style.Color = clSilver
+                  Style.Font.Charset = THAI_CHARSET
+                  Style.Font.Color = clWindowText
+                  Style.Font.Height = -11
+                  Style.Font.Name = 'Tahoma'
+                  Style.Font.Style = [fsBold]
+                  Style.IsFontAssigned = True
+                  TabOrder = 1
+                  Height = 24
+                  Width = 170
+                end
+                object cxLabel4: TcxLabel
+                  Left = 0
+                  Top = 32
+                  AutoSize = False
+                  Caption = 'DB Name :'
+                  Transparent = True
+                  Height = 26
+                  Width = 110
+                end
+                object cxTextEdit2: TcxTextEdit
+                  Left = 70
+                  Top = 29
+                  AutoSize = False
+                  ParentFont = False
+                  Properties.ReadOnly = True
+                  Style.Color = clSilver
+                  Style.Font.Charset = THAI_CHARSET
+                  Style.Font.Color = clWindowText
+                  Style.Font.Height = -11
+                  Style.Font.Name = 'Tahoma'
+                  Style.Font.Style = [fsBold]
+                  Style.IsFontAssigned = True
+                  TabOrder = 3
+                  Height = 24
+                  Width = 170
+                end
+              end
+              object cxTabSheet4: TcxTabSheet
+                Caption = ' Gateway '
+                ImageIndex = 1
+                object cxLabel7: TcxLabel
+                  Left = 0
+                  Top = 8
+                  AutoSize = False
+                  Caption = 'DB Server :'
+                  Style.LookAndFeel.Kind = lfUltraFlat
+                  StyleDisabled.LookAndFeel.Kind = lfUltraFlat
+                  StyleFocused.LookAndFeel.Kind = lfUltraFlat
+                  StyleHot.LookAndFeel.Kind = lfUltraFlat
+                  Transparent = True
+                  Height = 26
+                  Width = 105
+                end
+                object cxTextEdit3: TcxTextEdit
+                  Left = 70
+                  Top = 5
+                  AutoSize = False
+                  ParentFont = False
+                  Properties.ReadOnly = True
+                  Style.Color = clSilver
+                  Style.Font.Charset = THAI_CHARSET
+                  Style.Font.Color = clWindowText
+                  Style.Font.Height = -11
+                  Style.Font.Name = 'Tahoma'
+                  Style.Font.Style = [fsBold]
+                  Style.IsFontAssigned = True
+                  TabOrder = 1
+                  Height = 24
+                  Width = 170
+                end
+                object cxLabel8: TcxLabel
+                  Left = 0
+                  Top = 32
+                  AutoSize = False
+                  Caption = 'DB Name :'
+                  Transparent = True
+                  Height = 26
+                  Width = 110
+                end
+                object cxTextEdit4: TcxTextEdit
+                  Left = 70
+                  Top = 29
+                  AutoSize = False
+                  ParentFont = False
+                  Properties.ReadOnly = True
+                  Style.Color = clSilver
+                  Style.Font.Charset = THAI_CHARSET
+                  Style.Font.Color = clWindowText
+                  Style.Font.Height = -11
+                  Style.Font.Name = 'Tahoma'
+                  Style.Font.Style = [fsBold]
+                  Style.IsFontAssigned = True
+                  TabOrder = 3
+                  Height = 24
+                  Width = 170
+                end
+              end
+            end
+          end
+        end
       end
       object Panel3: TPanel
         Left = 0
@@ -361,18 +775,10 @@ object FormMainApplication: TFormMainApplication
     Left = 376
     Top = 296
   end
-  object MySQLMonitor: TMySQLMonitor
-    DBMonitorOptions.Host = 'localhost'
-    DBMonitorOptions.Port = 3306
-    TraceFlags = [tfMisc]
-    OnSQL = MySQLMonitorSQL
-    Left = 416
-    Top = 160
-  end
   object MyQuery: TMyQuery
     Connection = MyConnection
-    Left = 152
-    Top = 160
+    Left = 200
+    Top = 144
   end
   object MyConnection: TMyConnection
     Database = 'hos'

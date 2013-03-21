@@ -1,9 +1,9 @@
 object formMappingTables: TformMappingTables
   Left = 236
   Top = 77
+  Width = 1020
+  Height = 614
   Caption = 'Mapping Tables'
-  ClientHeight = 587
-  ClientWidth = 1012
   Color = clBtnFace
   Font.Charset = THAI_CHARSET
   Font.Color = clWindowText
@@ -24,8 +24,6 @@ object formMappingTables: TformMappingTables
     Align = alBottom
     BevelOuter = bvLowered
     TabOrder = 0
-    ExplicitTop = 506
-    ExplicitWidth = 917
     DesignSize = (
       1012
       41)
@@ -38,7 +36,6 @@ object formMappingTables: TformMappingTables
       Caption = 'OK'
       TabOrder = 0
       OnClick = btnOKClick
-      ExplicitLeft = 758
     end
     object btnCancel: TButton
       Left = 934
@@ -49,7 +46,6 @@ object formMappingTables: TformMappingTables
       Caption = 'Cancel'
       TabOrder = 1
       OnClick = btnCancelClick
-      ExplicitLeft = 839
     end
   end
   object cxGrid1: TcxGrid
@@ -60,8 +56,6 @@ object formMappingTables: TformMappingTables
     Align = alClient
     TabOrder = 1
     LookAndFeel.Kind = lfStandard
-    ExplicitWidth = 917
-    ExplicitHeight = 506
     object cxGrid1DBTableView1: TcxGridDBTableView
       Navigator.Visible = True
       DataController.DataSource = dsTables
@@ -155,7 +149,7 @@ object formMappingTables: TformMappingTables
     Active = True
     Aggregates = <>
     Params = <>
-    Left = 112
+    Left = 128
     Top = 120
     Data = {
       270100009619E0BD010000001800000008000000000003000000270102696404

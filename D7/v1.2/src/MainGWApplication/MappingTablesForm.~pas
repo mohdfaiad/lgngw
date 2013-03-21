@@ -20,7 +20,7 @@ uses
   dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic, dxSkinSharp,
   dxSkinSharpPlus, dxSkinSilver, dxSkinSpringTime, dxSkinStardust,
   dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinValentine, dxSkinVS2010,
-  dxSkinWhiteprint, dxSkinXmas2008Blue, cxCheckBox, cxMemo;
+  dxSkinWhiteprint, dxSkinXmas2008Blue, cxCheckBox, cxMemo, cxDropDownEdit;
 
 type
   TformMappingTables = class(TForm)
@@ -46,6 +46,8 @@ type
     cdsTablestargetCondition: TMemoField;
     cxGrid1DBTableView1srcCondition: TcxGridDBColumn;
     cxGrid1DBTableView1targetCondition: TcxGridDBColumn;
+    cdsTablesSyncType: TStringField;
+    cxGrid1DBTableView1SyncType: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure cxGrid1DBTableView1Column1GetDataText(
       Sender: TcxCustomGridTableItem; ARecordIndex: Integer;
@@ -71,6 +73,8 @@ var
 
 const
   _datafilename ='gwdata.data';
+  Sync_type : array[0..1] of string =('Data','Track');
+
 
 implementation
 
@@ -114,6 +118,7 @@ begin
     frmMappFields.targetTablename:= cdsTablestable_target_name.AsString;
     frmMappFields.fieldSteam := TMemoryStream.Create;
     frmMappFields.fieldSteam := cdsTables.CreateBlobStream(cdsTablesmapping_fields as TBlobField, bmRead);
+    frmMappFields.Caption:='Mapping Fields ('+cdsTablestable_src_name.AsString+' <--> '+cdsTablestable_target_name.AsString+')';
 
     frmMappFields.ShowModal;
 
@@ -137,9 +142,16 @@ begin
 end;
 
 procedure TformMappingTables.FormShow(Sender: TObject);
+var icount : integer;
 begin
   if FileExists(ExtractFilePath(Application.ExeName)+_datafilename) then
     cdsTables.LoadFromFile(ExtractFilePath(Application.ExeName)+_datafilename);
+
+  TcxCustomComboBoxProperties(cxGrid1DBTableView1SyncType.Properties).Items.Clear;
+  for icount := 0 to length(Sync_type)-1 do
+  begin
+    TcxCustomComboBoxProperties(cxGrid1DBTableView1SyncType.Properties).Items.Add(Sync_type[icount]);
+  end;
 end;
 
 procedure TformMappingTables.cxGrid1DBTableView1srcConditionPropertiesButtonClick(
@@ -179,12 +191,17 @@ var
 begin
   if cdsTables.Active then
   begin
+    cdsTables.First;
     for icount:=0 to cdsTables.RecordCount-1 do
     begin
+      if not ( cdsTables.State in [dsInsert,dsEdit]) then cdsTables.Edit;
+
       if cdsTablesactivate.AsString='Y' then
         cdsTablesactivate.AsString:='N'
       else
         cdsTablesactivate.AsString:='Y';
+
+      cdsTables.Post;
 
       if not cdsTables.Eof then cdsTables.Next;
     end;
