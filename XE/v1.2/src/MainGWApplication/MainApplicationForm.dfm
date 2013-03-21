@@ -180,7 +180,7 @@ object FormMainApplication: TFormMainApplication
               Style.Font.Style = [fsBold]
               Style.IsFontAssigned = True
               TabOrder = 4
-              Value = 10
+              Value = 4
               Width = 49
             end
             object btnClearLog: TButton
