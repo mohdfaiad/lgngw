@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
-	<Default.Personality>
-		<Projects ActiveProject="D:\BMS_Src\bms_svn\trunk\XE\v1.2\src\MainGWApplication\HOSxPGW.dproj"/>
-	</Default.Personality>
+  <Default.Personality>
+    <Projects ActiveProject="D:\BMS_Src\lgngw\XE\v1.2\src\MainGWApplication\HOSxPGW.dproj"/>
+  </Default.Personality>
 </BorlandProject>

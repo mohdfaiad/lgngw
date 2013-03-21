@@ -145,7 +145,6 @@ type
     cxLabel6: TcxLabel;
     lbHosConnStatus: TcxLabel;
     lbGwConnStatus: TcxLabel;
-    MySQLMonitor: TMySQLMonitor;
     MyQuery: TMyQuery;
     MyConnection: TMyConnection;
     dsp: TDataSetProvider;
@@ -160,8 +159,6 @@ type
     procedure Button1Click(Sender: TObject);
     procedure TimerAutoStartTimer(Sender: TObject);
     procedure TimerTestConnectionTimer(Sender: TObject);
-    procedure MySQLMonitorSQL(Sender: TObject; Text: string;
-      Flag: TDATraceFlag);
   private
     FStopProcess: boolean;
     FCanStartProcess: boolean;
@@ -1551,28 +1548,6 @@ begin
   result:='['+FormatDateTime('dd-MM-yyyy hh:mm:ss',Now)+']';
 end;
 
-procedure TFormMainApplication.MySQLMonitorSQL(Sender: TObject;
-  Text: string; Flag: TDATraceFlag);
-begin
-
-
-  if (copy(Text,0,6) = 'DELETE') or (copy(Text,0,6) = 'UPDATE') or (copy(Text,0,6) = 'INSERT') then
-    HOSxP_gwExecuteSQL('insert into replicate_log value (null,"'+FormatDateTime('yyyy-mm-dd hh:nn:ss',now)+'","LIS-GATEWAY","'+Text+'")');
-
-
-{  Text:=ReplaceSTR(trim(Text),'`','');
-  Text:=ReplaceSTR(trim(Text),#13#10,' ');
-  if (copy(Text,0,6) = 'DELETE') or (copy(Text,0,6) = 'UPDATE') or (copy(Text,0,6) = 'INSERT') then
-  begin
-     memoProcessLog.Lines.Add('insert into replicate_log value (null,"'+FormatDateTime('yyyy-mm-dd hh:nn:ss',now)+'","LIS-GATEWAY","'+Text+'")');
-  end;
-}
-
-  //MyQuery1.SQL.Text:=' select * from hos.replicate_log limit 1 ';
-  //MyQuery1.Execute;
-  //MemoError.Lines.Add('SQL >>>>> : '+text);
-end;
-
 procedure TFormMainApplication.Button1Click(Sender: TObject);
 var
   flen,vlen
@@ -1719,16 +1694,16 @@ begin
 
        _app_address:= xmlConn.ReadString('HOSxPConfig','ADDRESS','');
 
-       MySQLMonitor.Active:=false;
-       MySQLMonitor.DBMonitorOptions.Host:=_app_address;
-       MySQLMonitor.Active:=true;
+       //MySQLMonitor.Active:=false;
+       //MySQLMonitor.DBMonitorOptions.Host:=_app_address;
+       //MySQLMonitor.Active:=true;
 
        _app_database:=xmlConn.ReadString('HOSxPConfig','DATABASE','');
 
        edHosDBServer.Text:=_app_address;
        edHosDBName.Text:=_app_database;
 
-       MySQLMonitor.DBMonitorOptions.Host:=_app_address;
+       //MySQLMonitor.DBMonitorOptions.Host:=_app_address;
        xmlConn.Free;
 
     end;

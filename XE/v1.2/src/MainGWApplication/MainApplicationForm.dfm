@@ -777,14 +777,6 @@ object FormMainApplication: TFormMainApplication
     Left = 376
     Top = 296
   end
-  object MySQLMonitor: TMySQLMonitor
-    DBMonitorOptions.Host = 'localhost'
-    DBMonitorOptions.Port = 3306
-    TraceFlags = [tfMisc]
-    OnSQL = MySQLMonitorSQL
-    Left = 416
-    Top = 160
-  end
   object MyQuery: TMyQuery
     Connection = MyConnection
     Left = 152

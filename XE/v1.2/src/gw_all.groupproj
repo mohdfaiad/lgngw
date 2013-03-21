@@ -1,6 +1,6 @@
 ﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 		<PropertyGroup>
-			<ProjectGuid>{A2E3E498-83DF-47F9-AE28-FFF4E44C9304}</ProjectGuid>
+			<ProjectGuid>{FAA3A323-1F3E-4610-A9DC-DB677FD7AA50}</ProjectGuid>
 		</PropertyGroup>
 		<ItemGroup>
 			<Projects Include="ExternalConnectionLIB\extcon.dproj">
@@ -10,9 +10,6 @@
 				<Dependencies/>
 			</Projects>
 			<Projects Include="MainGWApplication\HOSxPGW.dproj">
-				<Dependencies/>
-			</Projects>
-			<Projects Include="LISEncryptionUtilsLIB\LISEncryptionUtilsLIB.dproj">
 				<Dependencies/>
 			</Projects>
 		</ItemGroup>
@@ -50,23 +47,14 @@
 		<Target Name="HOSxPGW:Make">
 			<MSBuild Targets="Make" Projects="MainGWApplication\HOSxPGW.dproj"/>
 		</Target>
-		<Target Name="LISEncryptionUtilsLIB">
-			<MSBuild Projects="LISEncryptionUtilsLIB\LISEncryptionUtilsLIB.dproj"/>
-		</Target>
-		<Target Name="LISEncryptionUtilsLIB:Clean">
-			<MSBuild Targets="Clean" Projects="LISEncryptionUtilsLIB\LISEncryptionUtilsLIB.dproj"/>
-		</Target>
-		<Target Name="LISEncryptionUtilsLIB:Make">
-			<MSBuild Targets="Make" Projects="LISEncryptionUtilsLIB\LISEncryptionUtilsLIB.dproj"/>
-		</Target>
 		<Target Name="Build">
-			<CallTarget Targets="extcon;hosxpcon;HOSxPGW;LISEncryptionUtilsLIB"/>
+			<CallTarget Targets="extcon;hosxpcon;HOSxPGW"/>
 		</Target>
 		<Target Name="Clean">
-			<CallTarget Targets="extcon:Clean;hosxpcon:Clean;HOSxPGW:Clean;LISEncryptionUtilsLIB:Clean"/>
+			<CallTarget Targets="extcon:Clean;hosxpcon:Clean;HOSxPGW:Clean"/>
 		</Target>
 		<Target Name="Make">
-			<CallTarget Targets="extcon:Make;hosxpcon:Make;HOSxPGW:Make;LISEncryptionUtilsLIB:Make"/>
+			<CallTarget Targets="extcon:Make;hosxpcon:Make;HOSxPGW:Make"/>
 		</Target>
 		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
 	</Project>

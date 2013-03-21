@@ -30,6 +30,7 @@ begin
 
   AllowExecute:=true;
 
+  {
   // control version
   if HOSxP_gwVersionInfo<>versionInfo then
   begin
@@ -43,10 +44,14 @@ begin
     AllowExecute:=false;
   end;
 
+  }
+
 
   //check connection
   if (checkHosConnection and checkGwConnection) then
   begin
+
+  (*
     // check license
     cdsx :=TClientDataSet.Create(nil);
     cdsx.Data := HOSxP_gwGetDataSet('select hospitalcode from opdconfig');
@@ -60,7 +65,10 @@ begin
         end else AllowExecute:=false;
     end else AllowExecute:=false;
 
+
     AllowExecute:=true;
+
+    *)
   //
 
     if AllowExecute then
