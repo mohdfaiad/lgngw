@@ -2,7 +2,9 @@ library extcon;
 { HOSxP External Connection for MySQL Library. }
 
 uses
-  SysUtils,Forms,ActiveX,
+  SysUtils,
+  Forms,
+  ActiveX,
   Dialogs,
   Classes,
   DB,
@@ -11,7 +13,8 @@ uses
   DBClient,
   Provider,
   MemDS,
-  uCiaXml in '..\LIB\uCiaXml.pas';
+  uCiaXml in '..\LIB\uCiaXml.pas',
+  MyXML in '..\LIB\MyXML.pas';
 
 {$R *.res}
 
@@ -21,8 +24,99 @@ _config_file ='gwconfig.xml';
 _sample_db='dba0';
 
 function initMyConnection(conn:TMyConnection):boolean;
+
+var
+  rep:boolean;
+  Xml: TMyXml;
+  Node, Child, SubChild: TXmlNode;
+  _app_address,_app_hostname,_app_database,_app_user,_app_password:string;
+begin
+  try
+    rep := false;
+    if not FileExists(ExtractFilePath(Application.ExeName)+_config_file) then
+    begin
+
+      Xml := TMyXml.Create;
+      Xml.Header.Attribute['encoding'] := 'utf-8';
+
+
+      Xml.Root.NodeName := 'Configuration';
+      Node := Xml.Root.AddChild('HOSxPConfig');
+      SubChild := Node.AddChild('ADDRESS');SubChild.Text := 'localhost';
+      SubChild := Node.AddChild('HOSTNAME');SubChild.Text := 'www.hosxp.net';
+      SubChild := Node.AddChild('USER');SubChild.Text := 'root';
+      SubChild := Node.AddChild('PASSWORD');SubChild.Text := '123456';
+      SubChild := Node.AddChild('DATABASE');SubChild.Text := 'hos';
+      SubChild := Node.AddChild('TRACKDATE_DD');SubChild.Text := '12';
+      SubChild := Node.AddChild('TRACKDATE_MM');SubChild.Text := '03';
+      SubChild := Node.AddChild('TRACKDATE_YYYY');SubChild.Text := '2012';
+
+
+
+      Node := Xml.Root.AddChild('GatewayConfig');
+      SubChild := Node.AddChild('ADDRESS');SubChild.Text := 'localhost';
+      SubChild := Node.AddChild('HOSTNAME');SubChild.Text := 'www.hosxp.net';
+      SubChild := Node.AddChild('USER');SubChild.Text := 'root';
+      SubChild := Node.AddChild('PASSWORD');SubChild.Text := '123456';
+      SubChild := Node.AddChild('DATABASE');SubChild.Text := 'hosgateway';
+      SubChild := Node.AddChild('TRACKDATE_DD');SubChild.Text := '12';
+      SubChild := Node.AddChild('TRACKDATE_MM');SubChild.Text := '03';
+      SubChild := Node.AddChild('TRACKDATE_YYYY');SubChild.Text := '2012';
+
+      Xml.SaveToFile(ExtractFilePath(Application.ExeName)+_config_file);
+      Xml.Free;
+
+    end;
+
+
+    // Load XML from Memo1
+    Xml := TMyXml.Create;
+    Xml.LoadFromFile(ExtractFilePath(Application.ExeName)+_config_file);
+
+  //  ShowMessage(Xml.Root.Find('HOSxPConfig', 'id', 'bk103').Find('description').Text);
+
+        _app_address      :=Xml.Root.Find('GatewayConfig').Find('ADDRESS').Text;
+        //_app_password     :=Xml.Root.Find('HOSxPConfig').Find('HOSTNAME').Text;
+        _app_user     :=Xml.Root.Find('GatewayConfig').Find('USER').Text;
+        _app_password     :=Xml.Root.Find('GatewayConfig').Find('PASSWORD').Text;
+        _app_database     :=Xml.Root.Find('GatewayConfig').Find('DATABASE').Text;
+        //_app_user         :=Xml.Root.Find('HOSxPConfig').Find('TRACKDATE_DD').Text;
+        //_app_user         :=Xml.Root.Find('HOSxPConfig').Find('TRACKDATE_MM').Text;
+    Xml.Free;
+
+
+     with conn do
+     begin
+      Connected:=false;
+      Database:=_app_database;
+      Password:=_app_password;
+      Server:= _app_address;
+      Username:= _app_user;
+      Options.Charset:='tis620';
+
+      Connected:=true;
+      rep:=true;
+     end;
+  except
+    on err:Exception do
+    begin
+      rep:=false;
+      MessageDlg(err.Message,mtError,[mbOK],0);
+      ShowMessage('Can not connect to Gateway database!!'+#10#13+_app_address+'-'+_app_database+'-'+_app_user+'-'+_app_password);
+    end;
+  end;
+  result:=rep;
+end;
+
+
+(*
 var rep:boolean;
 xmlConn : TXMLConfig;
+
+
+  Xml: TMyXml;
+  Node, Child, SubChild: TXmlNode;
+
 _app_address,_app_hostname,_app_database,_app_user,_app_password:string;
 begin
   try
@@ -72,6 +166,9 @@ begin
   result:=rep;
 
 end;
+
+
+*)
 
 
 

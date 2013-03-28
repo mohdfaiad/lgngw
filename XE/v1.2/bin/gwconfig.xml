@@ -1,4 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Configuration>
-	<HOSxPConfig ADDRESS="localhost" HOSTNAME="www.hosxp.net" USER="root" PASSWORD="123456" DATABASE="hos" TRACKDATE_DD="12" TRACKDATE_MM="01" TRACKDATE_YYYY="2013"/>
-	<ExtConfig ADDRESS="localhost" HOSTNAME="www.hosxp.net" USER="root" PASSWORD="123456" DATABASE="hosxp_gateway" TRACKDATE_DD="12" TRACKDATE_MM="01" TRACKDATE_YYYY="2013"/>
+	<HOSxPConfig>
+		<ADDRESS>localhost</ADDRESS>
+		<HOSTNAME>www.hosxp.net</HOSTNAME>
+		<USER>root</USER>
+		<PASSWORD></PASSWORD>
+		<DATABASE>hos</DATABASE>
+		<TRACKDATE_DD>12</TRACKDATE_DD>
+		<TRACKDATE_MM>03</TRACKDATE_MM>
+		<TRACKDATE_YYYY>2012</TRACKDATE_YYYY>
+	</HOSxPConfig>
+	<GatewayConfig>
+		<ADDRESS>localhost</ADDRESS>
+		<HOSTNAME>www.hosxp.net</HOSTNAME>
+		<USER>root</USER>
+		<PASSWORD></PASSWORD>
+		<DATABASE>hosxp_gateway</DATABASE>
+		<TRACKDATE_DD>12</TRACKDATE_DD>
+		<TRACKDATE_MM>03</TRACKDATE_MM>
+		<TRACKDATE_YYYY>2012</TRACKDATE_YYYY>
+	</GatewayConfig> 
 </Configuration>

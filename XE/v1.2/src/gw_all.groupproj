@@ -1,6 +1,6 @@
 ﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 		<PropertyGroup>
-			<ProjectGuid>{FAA3A323-1F3E-4610-A9DC-DB677FD7AA50}</ProjectGuid>
+			<ProjectGuid>{8AF094C6-70B8-4932-A2EF-3F2FFC99A56F}</ProjectGuid>
 		</PropertyGroup>
 		<ItemGroup>
 			<Projects Include="ExternalConnectionLIB\extcon.dproj">

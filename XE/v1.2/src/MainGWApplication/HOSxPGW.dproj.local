@@ -7,5 +7,7 @@
     <Transaction>2013/02/21 13:55:21.000.014,D:\BMS_Src\HOSxPGW\src\MainGWApplication\Unit1.dfm=D:\BMS_Src\HOSxPGW\src\MainGWApplication\MappingTablesForm.dfm</Transaction>
     <Transaction>2013/02/21 14:24:06.000.808,D:\BMS_Src\HOSxPGW\src\MainGWApplication\MappingFieldsForm.dfm=D:\BMS_Src\HOSxPGW\src\MainGWApplication\Unit1.dfm</Transaction>
     <Transaction>2013/02/22 09:57:01.000.323,D:\BMS_Src\HOSxPGW\src\MainGWApplication\SettingSyncSQLForm.dfm=D:\BMS_Src\HOSxPGW\src\MainGWApplication\Unit1.dfm</Transaction>
+    <Transaction>2013/03/28 22:24:38.724,=D:\BMS_src\lgngw\XE\v1.2\src\LIB\VerySimple.pas</Transaction>
+    <Transaction>2013/03/28 22:25:33.928,D:\BMS_src\lgngw\XE\v1.2\src\LIB\MyXML.pas=D:\BMS_src\lgngw\XE\v1.2\src\LIB\VerySimple.pas</Transaction>
   </Transactions>
 </BorlandProject>

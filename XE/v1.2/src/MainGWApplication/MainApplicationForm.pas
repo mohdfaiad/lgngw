@@ -1186,6 +1186,7 @@ begin
                 cdsUpdateGwLabTrack.Data := HOSxP_extGetDataSet('select * from login_lab_lis_track where lab_lis_track_id='+inttostr(cdsGwLabTrack.FieldByName('lab_lis_track_id').AsInteger));
                 if not (cdsUpdateGwLabTrack.State in [dsInsert,dsEdit]) then cdsUpdateGwLabTrack.Edit;
                 cdsUpdateGwLabTrack.FieldByName('gateway_flag').AsString:='1';
+
                 cdsUpdateGwLabTrack.Post;
                 if cdsUpdateGwLabTrack.ChangeCount>0 then
                   HOSxP_extUpdateDelta(cdsUpdateGwLabTrack.Delta,'select * from login_lab_lis_track where lab_lis_track_id='+inttostr(cdsGwLabTrack.FieldByName('lab_lis_track_id').AsInteger));
@@ -1393,8 +1394,8 @@ begin
                       if not (cdsUpdateHosLabTrack.State in [dsInsert,dsEdit]) then cdsUpdateHosLabTrack.Edit;
                       cdsUpdateHosLabTrack.FieldByName('gateway_flag').AsString:='1';
                       cdsUpdateHosLabTrack.Post;
-                      //HOSxP_gwUpdateDelta(cdsUpdateHosLabTrack.Delta,'select * from lab_lis_track where lab_lis_track_id='+inttostr(cdsHosLabTrack.FieldByName('lab_lis_track_id').AsInteger));
-                      HOSxP_gwUpdateDeltaA(FormMainApplication.MyConnection,FormMainApplication.MyQuery,FormMainApplication.dsp,cdsUpdateHosLabTrack.Delta,'select * from lab_lis_track where lab_lis_track_id='+inttostr(cdsHosLabTrack.FieldByName('lab_lis_track_id').AsInteger));
+                      HOSxP_gwUpdateDelta(cdsUpdateHosLabTrack.Delta,'select * from lab_lis_track where lab_lis_track_id='+inttostr(cdsHosLabTrack.FieldByName('lab_lis_track_id').AsInteger));
+                      //HOSxP_gwUpdateDeltaA(FormMainApplication.MyConnection,FormMainApplication.MyQuery,FormMainApplication.dsp,cdsUpdateHosLabTrack.Delta,'select * from lab_lis_track where lab_lis_track_id='+inttostr(cdsHosLabTrack.FieldByName('lab_lis_track_id').AsInteger));
                     end;
 
                     // update gateway track
@@ -1446,7 +1447,7 @@ begin
             if not mappCds.Eof then mappCds.Next;
           end;
 
-          sleep(1000);
+          //sleep(1000);
 
         end;
 
@@ -1660,8 +1661,8 @@ begin
 
           end;
         end;
-        //HOSxP_gwUpdateDelta(cdsLabTrack.Delta,'select * from lab_lis_track');
-        HOSxP_gwUpdateDeltaA(FormMainApplication.MyConnection,FormMainApplication.MyQuery,FormMainApplication.dsp,cdsLabTrack.Delta,'select * from lab_lis_track');
+        HOSxP_gwUpdateDelta(cdsLabTrack.Delta,'select * from lab_lis_track');
+        //HOSxP_gwUpdateDeltaA(FormMainApplication.MyConnection,FormMainApplication.MyQuery,FormMainApplication.dsp,cdsLabTrack.Delta,'select * from lab_lis_track');
     end;
 end;
 

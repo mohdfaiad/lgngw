@@ -1,9 +1,9 @@
 object FormMainApplication: TFormMainApplication
   Left = 313
   Top = 109
-  Width = 894
-  Height = 596
   Caption = 'BMS HOSxP LIS Gateway 1.2 '
+  ClientHeight = 569
+  ClientWidth = 886
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -178,7 +178,7 @@ object FormMainApplication: TFormMainApplication
               Style.Font.Style = [fsBold]
               Style.IsFontAssigned = True
               TabOrder = 4
-              Value = 10
+              Value = 3
               Width = 49
             end
             object btnClearLog: TButton

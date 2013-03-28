@@ -11,8 +11,7 @@ const
 
   _config_file ='gwconfig.xml';
   _sample_db='dba0';
-
-
+  AutoGenReceiveNumber = true;
 
 type
   TgwExecuteSQL = procedure(SQL: string);
@@ -68,6 +67,8 @@ function getGwTrackDate : TDateTime;
 
 implementation
 
+uses MyXML;
+
 
 
 
@@ -105,38 +106,44 @@ var
 function getHosTrackDate : TDateTime;
 var dt : TDateTime;
     dd,mm,yyyy:word;
-
+    Xml: TMyXml;
     xmlConn : TXMLConfig;
 begin
-
-  xmlConn:=TXMLConfig.Create(ExtractFilePath(Application.ExeName)+_config_file);
-  if (xmlConn.ReadString('HOSxPConfig','TRACKDATE_DD','')<>'') then
+  if FileExists(ExtractFilePath(Application.ExeName)+_config_file) then
   begin
-   dd:= strtoint(xmlConn.ReadString('HOSxPConfig','TRACKDATE_DD',''));
-   mm:= strtoint(xmlConn.ReadString('HOSxPConfig','TRACKDATE_MM',''));
-   yyyy:=strtoint(xmlConn.ReadString('HOSxPConfig','TRACKDATE_YYYY',''));
+
+        Xml := TMyXml.Create;
+        Xml.LoadFromFile(_config_file);
+
+        dd      :=StrToInt( Xml.Root.Find('HOSxPConfig').Find('TRACKDATE_DD').Text);
+        mm     :=StrToInt(xml.Root.Find('HOSxPConfig').Find('TRACKDATE_MM').Text);
+        yyyy     :=StrToInt(Xml.Root.Find('HOSxPConfig').Find('TRACKDATE_YYYY').Text);
+        Xml.Free;
   end;
-   xmlConn.Free;
-    result:=EncodeDate(yyyy,mm,dd);
+  result:=EncodeDate(yyyy,mm,dd);
 
 end;
 
 function getGwTrackDate : TDateTime;
 var dt : TDateTime;
     dd,mm,yyyy:word;
-
+    Xml: TMyXml;
     xmlConn : TXMLConfig;
 begin
 
-  xmlConn:=TXMLConfig.Create(ExtractFilePath(Application.ExeName)+_config_file);
-  if (xmlConn.ReadString('ExtConfig','TRACKDATE_DD','')<>'') then
+
+  if FileExists(ExtractFilePath(Application.ExeName)+_config_file) then
   begin
-   dd:= strtoint(xmlConn.ReadString('ExtConfig','TRACKDATE_DD',''));
-   mm:= strtoint(xmlConn.ReadString('ExtConfig','TRACKDATE_MM',''));
-   yyyy:=strtoint(xmlConn.ReadString('ExtConfig','TRACKDATE_YYYY',''));
+
+        Xml := TMyXml.Create;
+        Xml.LoadFromFile(_config_file);
+
+        dd      :=StrToInt(Xml.Root.Find('GatewayConfig').Find('TRACKDATE_DD').Text);
+        mm     :=StrToInt(Xml.Root.Find('GatewayConfig').Find('TRACKDATE_MM').Text);
+        yyyy     :=StrToInt(Xml.Root.Find('GatewayConfig').Find('TRACKDATE_YYYY').Text);
+        Xml.Free;
   end;
-  xmlConn.Free;
-    result:=EncodeDate(yyyy,mm,dd);
+  result:=EncodeDate(yyyy,mm,dd);
 
 end;
 
@@ -144,6 +151,10 @@ function checkHosConnection: boolean;
 var MyConnectionTest:TMyConnection;
     rep:boolean;
     xmlConn : TXMLConfig;
+
+    Xml: TMyXml;
+    Node, Child, SubChild: TXmlNode;
+
     _app_address,_app_hostname,_app_database,_app_user,_app_password:string;
 begin
      MyConnectionTest :=TMyConnection.Create(Application);
@@ -152,23 +163,56 @@ begin
 
       //
       rep:=false;
-      xmlConn:=TXMLConfig.Create(ExtractFilePath(Application.ExeName)+_config_file);
-      if (xmlConn.ReadString('HOSxPConfig','ADDRESS','')='') then
-      begin
-          // mssql connection
-          xmlConn.WriteString('HOSxPConfig','ADDRESS','localhost');
-          xmlConn.WriteString('HOSxPConfig','HOSTNAME','www.hosxp.net');
-          xmlConn.WriteString('HOSxPConfig','USER','root');
-          xmlConn.WriteString('HOSxPConfig','PASSWORD','123456');
-          xmlConn.WriteString('HOSxPConfig','DATABASE',_sample_db);
-          xmlConn.Save;
-      end;
 
-       _app_address:= xmlConn.ReadString('HOSxPConfig','ADDRESS','');
-       _app_hostname:= xmlConn.ReadString('HOSxPConfig','HOSTNAME','');
-       _app_database:=xmlConn.ReadString('HOSxPConfig','DATABASE','');
-       _app_user:=xmlConn.ReadString('HOSxPConfig','USER','root');
-       _app_password:=xmlConn.ReadString('HOSxPConfig','PASSWORD','123456');
+
+        if not FileExists(ExtractFilePath(Application.ExeName)+_config_file) then
+        begin
+
+          Xml := TMyXml.Create;
+          Xml.Header.Attribute['encoding'] := 'utf-8';
+
+
+          Xml.Root.NodeName := 'Configuration';
+          Node := Xml.Root.AddChild('HOSxPConfig');
+          SubChild := Node.AddChild('ADDRESS');SubChild.Text := 'localhost';
+          SubChild := Node.AddChild('HOSTNAME');SubChild.Text := 'www.hosxp.net';
+          SubChild := Node.AddChild('USER');SubChild.Text := 'root';
+          SubChild := Node.AddChild('PASSWORD');SubChild.Text := '123456';
+          SubChild := Node.AddChild('DATABASE');SubChild.Text := 'hos';
+          SubChild := Node.AddChild('TRACKDATE_DD');SubChild.Text := '12';
+          SubChild := Node.AddChild('TRACKDATE_MM');SubChild.Text := '03';
+          SubChild := Node.AddChild('TRACKDATE_YYYY');SubChild.Text := '2012';
+
+
+
+          Node := Xml.Root.AddChild('GatewayConfig');
+          SubChild := Node.AddChild('ADDRESS');SubChild.Text := 'localhost';
+          SubChild := Node.AddChild('HOSTNAME');SubChild.Text := 'www.hosxp.net';
+          SubChild := Node.AddChild('USER');SubChild.Text := 'root';
+          SubChild := Node.AddChild('PASSWORD');SubChild.Text := '123456';
+          SubChild := Node.AddChild('DATABASE');SubChild.Text := _sample_db;
+          SubChild := Node.AddChild('TRACKDATE_DD');SubChild.Text := '12';
+          SubChild := Node.AddChild('TRACKDATE_MM');SubChild.Text := '03';
+          SubChild := Node.AddChild('TRACKDATE_YYYY');SubChild.Text := '2012';
+          Xml.SaveToFile(ExtractFilePath(Application.ExeName)+_config_file);
+          Xml.Free;
+
+        end;
+
+
+        // Load XML from Memo1
+        Xml := TMyXml.Create;
+        Xml.LoadFromFile(_config_file);
+
+        _app_address      :=Xml.Root.Find('HOSxPConfig').Find('ADDRESS').Text;
+        //_app_password     :=Xml.Root.Find('HOSxPConfig').Find('HOSTNAME').Text;
+        _app_user     :=Xml.Root.Find('HOSxPConfig').Find('USER').Text;
+        _app_password     :=Xml.Root.Find('HOSxPConfig').Find('PASSWORD').Text;
+        _app_database     :=Xml.Root.Find('HOSxPConfig').Find('DATABASE').Text;
+        //_app_user         :=Xml.Root.Find('HOSxPConfig').Find('TRACKDATE_DD').Text;
+        //_app_user         :=Xml.Root.Find('HOSxPConfig').Find('TRACKDATE_MM').Text;
+        Xml.Free;
+
 
         MyConnectionTest.Connected:=false;
         MyConnectionTest.Database:=_app_database;
@@ -188,7 +232,7 @@ begin
       except
         rep := false;
       end;
-      xmlConn.Free;
+
      end;
      result := rep;
 end;
@@ -198,6 +242,9 @@ function checkGwConnection: boolean;
 var MyConnectionTest:TMyConnection;
     rep:boolean;
     xmlConn : TXMLConfig;
+    Xml: TMyXml;
+    Node, Child, SubChild: TXmlNode;
+
     _app_address,_app_hostname,_app_database,_app_user,_app_password:string;
 begin
      MyConnectionTest :=TMyConnection.Create(Application);
@@ -206,23 +253,56 @@ begin
 
       //
       rep:=false;
-      xmlConn:=TXMLConfig.Create(ExtractFilePath(Application.ExeName)+_config_file);
-      if (xmlConn.ReadString('ExtConfig','ADDRESS','')='') then
-      begin
-          // mssql connection
-          xmlConn.WriteString('ExtConfig','ADDRESS','localhost');
-          xmlConn.WriteString('ExtConfig','HOSTNAME','www.hosxp.net');
-          xmlConn.WriteString('ExtConfig','USER','root');
-          xmlConn.WriteString('ExtConfig','PASSWORD','123456');
-          xmlConn.WriteString('ExtConfig','DATABASE',_sample_db);
-          xmlConn.Save;
-      end;
 
-       _app_address:= xmlConn.ReadString('ExtConfig','ADDRESS','');
-       _app_hostname:= xmlConn.ReadString('ExtConfig','HOSTNAME','');
-       _app_database:=xmlConn.ReadString('ExtConfig','DATABASE','');
-       _app_user:=xmlConn.ReadString('ExtConfig','USER','root');
-       _app_password:=xmlConn.ReadString('ExtConfig','PASSWORD','123456');
+
+        if not FileExists(ExtractFilePath(Application.ExeName)+_config_file) then
+        begin
+
+          Xml := TMyXml.Create;
+          Xml.Header.Attribute['encoding'] := 'utf-8';
+
+
+          Xml.Root.NodeName := 'Configuration';
+          Node := Xml.Root.AddChild('HOSxPConfig');
+          SubChild := Node.AddChild('ADDRESS');SubChild.Text := 'localhost';
+          SubChild := Node.AddChild('HOSTNAME');SubChild.Text := 'www.hosxp.net';
+          SubChild := Node.AddChild('USER');SubChild.Text := 'root';
+          SubChild := Node.AddChild('PASSWORD');SubChild.Text := '123456';
+          SubChild := Node.AddChild('DATABASE');SubChild.Text := 'hos';
+          SubChild := Node.AddChild('TRACKDATE_DD');SubChild.Text := '12';
+          SubChild := Node.AddChild('TRACKDATE_MM');SubChild.Text := '03';
+          SubChild := Node.AddChild('TRACKDATE_YYYY');SubChild.Text := '2012';
+
+
+
+          Node := Xml.Root.AddChild('GatewayConfig');
+          SubChild := Node.AddChild('ADDRESS');SubChild.Text := 'localhost';
+          SubChild := Node.AddChild('HOSTNAME');SubChild.Text := 'www.hosxp.net';
+          SubChild := Node.AddChild('USER');SubChild.Text := 'root';
+          SubChild := Node.AddChild('PASSWORD');SubChild.Text := '123456';
+          SubChild := Node.AddChild('DATABASE');SubChild.Text := 'hosgateway';
+          SubChild := Node.AddChild('TRACKDATE_DD');SubChild.Text := '12';
+          SubChild := Node.AddChild('TRACKDATE_MM');SubChild.Text := '03';
+          SubChild := Node.AddChild('TRACKDATE_YYYY');SubChild.Text := '2012';
+
+          Xml.SaveToFile(ExtractFilePath(Application.ExeName)+_config_file);
+          Xml.Free;
+
+        end;
+
+
+        // Load XML from Memo1
+        Xml := TMyXml.Create;
+        Xml.LoadFromFile(ExtractFilePath(Application.ExeName)+_config_file);
+
+        _app_address      :=Xml.Root.Find('GatewayConfig').Find('ADDRESS').Text;
+        //_app_password     :=Xml.Root.Find('HOSxPConfig').Find('HOSTNAME').Text;
+        _app_user     :=Xml.Root.Find('GatewayConfig').Find('USER').Text;
+        _app_password     :=Xml.Root.Find('GatewayConfig').Find('PASSWORD').Text;
+        _app_database     :=Xml.Root.Find('GatewayConfig').Find('DATABASE').Text;
+        //_app_user         :=Xml.Root.Find('HOSxPConfig').Find('TRACKDATE_DD').Text;
+        //_app_user         :=Xml.Root.Find('HOSxPConfig').Find('TRACKDATE_MM').Text;
+        Xml.Free;
 
 
         MyConnectionTest.Connected:=false;
@@ -242,7 +322,6 @@ begin
         rep := false;
       end;
 
-      xmlConn.Free;
 
      end;
      result := rep;

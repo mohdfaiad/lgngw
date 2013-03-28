@@ -4,7 +4,8 @@ uses
   Forms,
   DBClient,
   Dialogs,
-  Windows,SysUtils,
+  Windows,
+  SysUtils,
   MainApplicationForm in 'MainApplicationForm.pas' {FormMainApplication},
   HOSxP_gwLIB in 'HOSxP_gwLIB.pas',
   MappingTablesForm in 'MappingTablesForm.pas' {formMappingTables},
@@ -15,7 +16,8 @@ uses
   SQLPopUpForm in 'SQLPopUpForm.pas' {FormSQLPopUp},
   HOSxP_LabTrack in '..\LIB\HOSxP_LabTrack.pas',
   Sha1 in '..\LIB\Sha1.pas',
-  HOSxP_Logging in '..\LIB\HOSxP_Logging.pas';
+  HOSxP_Logging in '..\LIB\HOSxP_Logging.pas',
+  MyXML in '..\LIB\MyXML.pas';
 
 {$R *.res}
 const
@@ -75,10 +77,9 @@ begin
     begin
     Application.Title := 'BMS HOSxP LIS Gateway';
     Application.CreateForm(TFormMainApplication, FormMainApplication);
-    Application.CreateForm(TformConfiguration, formConfiguration);
-    Application.CreateForm(TFormSQLPopUp, FormSQLPopUp);
-
-    if ParamCount>0 then
+  Application.CreateForm(TformConfiguration, formConfiguration);
+  Application.CreateForm(TFormSQLPopUp, FormSQLPopUp);
+  if ParamCount>0 then
       if (uppercase(ParamStr(1))='AUTOSTART') then
           FormMainApplication.AutoStart := true;
     end;
