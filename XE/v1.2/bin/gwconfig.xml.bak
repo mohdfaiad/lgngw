@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Configuration>
-	<HOSxPConfig>
+	<HOSxPConfig ADDRESS="localhost" HOSTNAME="www.hosxp.net" USER="root" PASSWORD="123456" DATABASE="dba0">
 		<ADDRESS>localhost</ADDRESS>
 		<HOSTNAME>www.hosxp.net</HOSTNAME>
 		<USER>root</USER>
 		<PASSWORD></PASSWORD>
-		<DATABASE>hos</DATABASE>
+		<DATABASE>hosgateway</DATABASE>
 		<TRACKDATE_DD>12</TRACKDATE_DD>
 		<TRACKDATE_MM>03</TRACKDATE_MM>
 		<TRACKDATE_YYYY>2012</TRACKDATE_YYYY>
@@ -19,5 +19,5 @@
 		<TRACKDATE_DD>12</TRACKDATE_DD>
 		<TRACKDATE_MM>03</TRACKDATE_MM>
 		<TRACKDATE_YYYY>2012</TRACKDATE_YYYY>
-	</GatewayConfig> 
+	</GatewayConfig>  <ExtConfig ADDRESS="localhost" HOSTNAME="www.hosxp.net" USER="root" PASSWORD="123456" DATABASE="dba0"/>
 </Configuration>

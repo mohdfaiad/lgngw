@@ -21,28 +21,19 @@ begin
   Result := CheckLisenceGateway(hospcode);
 end;
 
-function HOSxP_gwGetLabOrderNumber(LaborderEncrytext:String;LISTrackID:integer;hospcode:string):pchar;
-var rep : string;
+procedure HOSxP_gwGetLabOrderNumber(LaborderEncrytext:String;LISTrackID:integer;hospcode:string;out _buffer:string);
 begin
-  rep := GetLabOrderNumber(LaborderEncrytext,LISTrackID,hospcode);
-  GetMem( Result, length( rep ) +1 );
-  StrPCopy( Result, rep )
+  _buffer := GetLabOrderNumber(LaborderEncrytext,LISTrackID,hospcode);
 end;
 
-function HOSxP_gwGetLabOrderType(LabTypetext:String;LISTrackID:integer;hospcode:string):pchar;
-var rep : string;
+procedure HOSxP_gwGetLabOrderType(LabTypetext:String;LISTrackID:integer;hospcode:string;out _buffer:string);
 begin
-  rep := GetLabOrderType(LabTypetext,LISTrackID,hospcode);
-  GetMem( Result, length( rep ) +1 );
-  StrPCopy( Result, rep )
+  _buffer := GetLabOrderType(LabTypetext,LISTrackID,hospcode);
 end;
 
-function HOSxP_gwGetLabOrderResult(LabOrderNumber,LISItemcode:integer;hospcode:string):pchar;
-var rep : string;
+procedure HOSxP_gwGetLabOrderResult(LabOrderNumber,LISItemcode:integer;hospcode:string;out _buffer:string);
 begin
-  rep := GetLabOrderResult(LabOrderNumber,LISItemcode,hospcode);
-  GetMem( Result, length( rep ) +1 );
-  StrPCopy( Result, rep )
+  _buffer := GetLabOrderResult(LabOrderNumber,LISItemcode,hospcode);
 end;
 
 exports

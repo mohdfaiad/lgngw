@@ -28,8 +28,6 @@ object formConfiguration: TformConfiguration
     Caption = 'OK'
     TabOrder = 0
     OnClick = btnOKClick
-    ExplicitLeft = 220
-    ExplicitTop = 182
   end
   object btnCancel: TButton
     Left = 310
@@ -40,8 +38,6 @@ object formConfiguration: TformConfiguration
     Caption = 'Cancel'
     TabOrder = 1
     OnClick = btnCancelClick
-    ExplicitLeft = 300
-    ExplicitTop = 182
   end
   object PageControl1: TPageControl
     Left = 2
@@ -51,12 +47,8 @@ object formConfiguration: TformConfiguration
     ActivePage = TabSheet1
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 2
-    ExplicitWidth = 376
-    ExplicitHeight = 176
     object TabSheet1: TTabSheet
       Caption = 'HOSxP Connection'
-      ExplicitWidth = 368
-      ExplicitHeight = 148
       object cxLabel1: TcxLabel
         Left = 0
         Top = 8
@@ -188,8 +180,6 @@ object formConfiguration: TformConfiguration
     object TabSheet2: TTabSheet
       Caption = 'Gateway Connection'
       ImageIndex = 1
-      ExplicitWidth = 368
-      ExplicitHeight = 148
       object cxLabel5: TcxLabel
         Left = 0
         Top = 8

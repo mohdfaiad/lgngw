@@ -12,6 +12,9 @@
 			<Projects Include="MainGWApplication\HOSxPGW.dproj">
 				<Dependencies/>
 			</Projects>
+			<Projects Include="LISEncryptionUtilsLIB\LISEncryptionUtilsLIB.dproj">
+				<Dependencies/>
+			</Projects>
 		</ItemGroup>
 		<ProjectExtensions>
 			<Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -47,14 +50,23 @@
 		<Target Name="HOSxPGW:Make">
 			<MSBuild Targets="Make" Projects="MainGWApplication\HOSxPGW.dproj"/>
 		</Target>
+		<Target Name="LISEncryptionUtilsLIB">
+			<MSBuild Projects="LISEncryptionUtilsLIB\LISEncryptionUtilsLIB.dproj"/>
+		</Target>
+		<Target Name="LISEncryptionUtilsLIB:Clean">
+			<MSBuild Targets="Clean" Projects="LISEncryptionUtilsLIB\LISEncryptionUtilsLIB.dproj"/>
+		</Target>
+		<Target Name="LISEncryptionUtilsLIB:Make">
+			<MSBuild Targets="Make" Projects="LISEncryptionUtilsLIB\LISEncryptionUtilsLIB.dproj"/>
+		</Target>
 		<Target Name="Build">
-			<CallTarget Targets="extcon;hosxpcon;HOSxPGW"/>
+			<CallTarget Targets="extcon;hosxpcon;HOSxPGW;LISEncryptionUtilsLIB"/>
 		</Target>
 		<Target Name="Clean">
-			<CallTarget Targets="extcon:Clean;hosxpcon:Clean;HOSxPGW:Clean"/>
+			<CallTarget Targets="extcon:Clean;hosxpcon:Clean;HOSxPGW:Clean;LISEncryptionUtilsLIB:Clean"/>
 		</Target>
 		<Target Name="Make">
-			<CallTarget Targets="extcon:Make;hosxpcon:Make;HOSxPGW:Make"/>
+			<CallTarget Targets="extcon:Make;hosxpcon:Make;HOSxPGW:Make;LISEncryptionUtilsLIB:Make"/>
 		</Target>
 		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
 	</Project>

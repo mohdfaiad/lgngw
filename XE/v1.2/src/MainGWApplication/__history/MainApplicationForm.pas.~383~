@@ -57,7 +57,6 @@ type
     function updateLabItem(LabItemsCode:integer):boolean;
     function copyCds(cdsSource:TClientDataSet;cdsTarget,cdsMappFields,mappFieldsTemp:TClientDataSet;WithTrack:boolean;TrackType:string):boolean;
     function ASyncCds(cdsSource:TClientDataSet;cdsTarget,cdsMappFields,mappFieldsTemp:TClientDataSet;WithTrack:boolean;TrackType:string;tableName:string):boolean;
-    procedure ProcessHosLabTrack(trackid:integer);
     function getHosLabDataset:OleVariant;
     procedure updateHosLabDataset(cds:Tclientdataset);
     function getGwLabDataset:OleVariant;
@@ -145,7 +144,6 @@ type
     cxLabel6: TcxLabel;
     lbHosConnStatus: TcxLabel;
     lbGwConnStatus: TcxLabel;
-    MySQLMonitor: TMySQLMonitor;
     MyQuery: TMyQuery;
     MyConnection: TMyConnection;
     dsp: TDataSetProvider;
@@ -160,8 +158,6 @@ type
     procedure Button1Click(Sender: TObject);
     procedure TimerAutoStartTimer(Sender: TObject);
     procedure TimerTestConnectionTimer(Sender: TObject);
-    procedure MySQLMonitorSQL(Sender: TObject; Text: string;
-      Flag: TDATraceFlag);
   private
     FStopProcess: boolean;
     FCanStartProcess: boolean;
@@ -209,7 +205,7 @@ const
 implementation
 
 uses HOSxP_gwLIB, MappingTablesForm, ConfigurationForm, uCiaXml,
-  BMSEncryptionUtil, HOSxP_Logging;
+   HOSxP_Logging, MyXML;
 
 {$R *.dfm}
 
@@ -932,6 +928,7 @@ var
   cdsLabTrack , cdsOpdConfig: TClientDataSet;
   hospitalcode,DeCryptText,track_type: string;
   order_number:integer;
+  mybuff:string;
 
 begin
   hospitalcode:='';
@@ -950,15 +947,18 @@ begin
           while not cdsLabTrack.Eof do
           begin
             //DeCryptText := DecrypTTextWithKey(cdsLabTrack.FieldByName('lab_order_number').asstring,cdsLabTrack.FieldByName('lab_lis_track_id').asstring+':'+hospitalcode);
-            //DeCryptText := GetLabOrderNumber(cdsLabTrack.FieldByName('lab_order_number').asstring,cdsLabTrack.FieldByName('lab_lis_track_id').AsInteger,hospitalcode);
-            DeCryptText := HOSxP_gwGetLabOrderNumber(cdsLabTrack.FieldByName('lab_order_number').asstring,cdsLabTrack.FieldByName('lab_lis_track_id').AsInteger,hospitalcode);
+            DeCryptText := GetLabOrderNumber(cdsLabTrack.FieldByName('lab_order_number').asstring,cdsLabTrack.FieldByName('lab_lis_track_id').AsInteger,hospitalcode);
+            //DeCryptText:=HOSxP_gwGetLabOrderNumber(cdsLabTrack.FieldByName('lab_order_number').asstring,cdsLabTrack.FieldByName('lab_lis_track_id').AsInteger,hospitalcode);
+            mybuff := DeCryptText;
+
             if trim(DeCryptText)<>'' then
             order_number := StrToInt(DeCryptText);
 
             track_type:='';
             //DeCryptText := DecrypTTextWithKey(cdsLabTrack.FieldByName('lab_lis_track_type').asstring,cdsLabTrack.FieldByName('lab_lis_track_id').asstring+':'+hospitalcode);
-            //DeCryptText := GetLabOrderType(cdsLabTrack.FieldByName('lab_lis_track_type').asstring,cdsLabTrack.FieldByName('lab_lis_track_id').AsInteger,hospitalcode);
-            DeCryptText := HOSxP_gwGetLabOrderType(cdsLabTrack.FieldByName('lab_lis_track_type').asstring,cdsLabTrack.FieldByName('lab_lis_track_id').AsInteger,hospitalcode);
+            DeCryptText := GetLabOrderType(cdsLabTrack.FieldByName('lab_lis_track_type').asstring,cdsLabTrack.FieldByName('lab_lis_track_id').AsInteger,hospitalcode);
+            //HOSxP_gwGetLabOrderType(cdsLabTrack.FieldByName('lab_lis_track_type').asstring,cdsLabTrack.FieldByName('lab_lis_track_id').AsInteger,hospitalcode,DeCryptText);
+
             if trim(DeCryptText)<>'' then
             track_type := DeCryptText;
 
@@ -978,43 +978,7 @@ begin
 end;
 
 
-procedure TProcessThread.ProcessHosLabTrack(trackid: integer);
-var
-  cdsLabTrack , cdsOpdConfig: TClientDataSet;
-  hospitalcode,DeCryptText,track_type: string;
-  order_number:integer;
 
-begin
-  hospitalcode:='';
-  cdsOpdConfig:=TClientDataSet.Create(Application);
-  cdsOpdConfig.Data:= HOSxP_gwGetDataSet('select hospitalcode from opdconfig');
-  if cdsOpdConfig.Active then
-    if cdsOpdConfig.RecordCount>0 then
-    begin
-      hospitalcode := cdsOpdConfig.FieldByName('hospitalcode').AsString;
-      cdsLabTrack := TClientDataSet.Create(Application);
-      cdsLabTrack.Data := HOSxP_gwGetDataSet('select * from lab_lis_track');
-      if cdsLabTrack.Active then
-        if cdsLabTrack.RecordCount>0 then
-        begin
-          cdsLabTrack.First;
-          while not cdsLabTrack.Eof do
-          begin
-            DeCryptText := DecrypTTextWithKey(cdsLabTrack.FieldByName('lab_order_number').asstring,cdsLabTrack.FieldByName('lab_lis_track_id').asstring+':'+hospitalcode);
-            if trim(DeCryptText)<>'' then
-            order_number := StrToInt(DeCryptText);
-
-            track_type:='';
-            DeCryptText := DecrypTTextWithKey(cdsLabTrack.FieldByName('lab_lis_track_type').asstring,cdsLabTrack.FieldByName('lab_lis_track_id').asstring+':'+hospitalcode);
-            if trim(DeCryptText)<>'' then
-            track_type := DeCryptText;
-
-            //FErrorProcessLog.Lines.Add('DeCryptText:'+IntToStr(order_number)+' - '+track_type);
-            cdsLabTrack.Next;
-          end;
-        end;
-    end;
-end;
 
 procedure TProcessThread.RunThread(const srcTableName,
   targetTableName: string; FProgressbarIndex: integer);
@@ -1090,6 +1054,7 @@ begin
          begin
 
           { REQUEST ACCEPT NUMBER }
+          (*
          if cdsGwLabTrack.Active then
              if cdsGwLabTrack.RecordCount>0 then
              begin
@@ -1102,6 +1067,7 @@ begin
               if cdsGwLabTrack.FieldByName('lab_lis_track_datetime').AsDateTime>=getGwTrackDate then
               begin
                   if  FormMainApplication.ckMarkTrack.Checked then
+
                     if  (TrackType='REQUEST-ACCEPT-NUMBER') then
                     begin
                       cdsUpdateGwLabTrack.Data := HOSxP_extGetDataSet('select * from login_lab_lis_track where lab_lis_track_id='+inttostr(cdsGwLabTrack.FieldByName('lab_lis_track_id').AsInteger));
@@ -1116,6 +1082,8 @@ begin
                 cdsGwLabTrack.Next;
               end;
            end;
+
+           *)
 
 
 
@@ -1189,6 +1157,7 @@ begin
                 cdsUpdateGwLabTrack.Data := HOSxP_extGetDataSet('select * from login_lab_lis_track where lab_lis_track_id='+inttostr(cdsGwLabTrack.FieldByName('lab_lis_track_id').AsInteger));
                 if not (cdsUpdateGwLabTrack.State in [dsInsert,dsEdit]) then cdsUpdateGwLabTrack.Edit;
                 cdsUpdateGwLabTrack.FieldByName('gateway_flag').AsString:='1';
+
                 cdsUpdateGwLabTrack.Post;
                 if cdsUpdateGwLabTrack.ChangeCount>0 then
                   HOSxP_extUpdateDelta(cdsUpdateGwLabTrack.Delta,'select * from login_lab_lis_track where lab_lis_track_id='+inttostr(cdsGwLabTrack.FieldByName('lab_lis_track_id').AsInteger));
@@ -1396,19 +1365,25 @@ begin
                       if not (cdsUpdateHosLabTrack.State in [dsInsert,dsEdit]) then cdsUpdateHosLabTrack.Edit;
                       cdsUpdateHosLabTrack.FieldByName('gateway_flag').AsString:='1';
                       cdsUpdateHosLabTrack.Post;
-                      //HOSxP_gwUpdateDelta(cdsUpdateHosLabTrack.Delta,'select * from lab_lis_track where lab_lis_track_id='+inttostr(cdsHosLabTrack.FieldByName('lab_lis_track_id').AsInteger));
-                      HOSxP_gwUpdateDeltaA(FormMainApplication.MyConnection,FormMainApplication.MyQuery,FormMainApplication.dsp,cdsUpdateHosLabTrack.Delta,'select * from lab_lis_track where lab_lis_track_id='+inttostr(cdsHosLabTrack.FieldByName('lab_lis_track_id').AsInteger));
+                      HOSxP_gwUpdateDelta(cdsUpdateHosLabTrack.Delta,'select * from lab_lis_track where lab_lis_track_id='+inttostr(cdsHosLabTrack.FieldByName('lab_lis_track_id').AsInteger));
+                      //HOSxP_gwUpdateDeltaA(FormMainApplication.MyConnection,FormMainApplication.MyQuery,FormMainApplication.dsp,cdsUpdateHosLabTrack.Delta,'select * from lab_lis_track where lab_lis_track_id='+inttostr(cdsHosLabTrack.FieldByName('lab_lis_track_id').AsInteger));
                     end;
 
                     // update gateway track
                     cdsUpdateGatewayTrack.Data := HOSxP_extGetDataSet('select * from lab_lis_track where lab_lis_track_id='+inttostr(cdsHosLabTrack.FieldByName('lab_lis_track_id').AsInteger));
                     if not (cdsUpdateGatewayTrack.State in [dsInsert,dsEdit]) then cdsUpdateGatewayTrack.Edit;
 
+                    if cdsUpdateGatewayTrack.Active then
+                      if cdsUpdateGatewayTrack.RecordCount<=0 then
+                        cdsUpdateGatewayTrack.FieldByName('lab_lis_accept_number').AsInteger :=  HOSxP_gwGetSerialNumber('lab_receive_number');
+
+
                     cdsUpdateGatewayTrack.FieldByName('gateway_flag').AsString:='1';
                     cdsUpdateGatewayTrack.FieldByName('lab_lis_track_datetime').value := cdsHosLabTrack.FieldByName('lab_lis_track_datetime').value;
                     cdsUpdateGatewayTrack.FieldByName('lab_order_number').value := cdsHosLabTrack.FieldByName('lab_order_number').value;
                     cdsUpdateGatewayTrack.FieldByName('lab_lis_track_type').value := cdsHosLabTrack.FieldByName('lab_lis_track_type').value;
                     cdsUpdateGatewayTrack.FieldByName('lab_lis_track_id').value := cdsHosLabTrack.FieldByName('lab_lis_track_id').value;
+
 
                     cdsUpdateGatewayTrack.Post;
                     if cdsUpdateGatewayTrack.ChangeCount>0 then
@@ -1449,7 +1424,7 @@ begin
             if not mappCds.Eof then mappCds.Next;
           end;
 
-          sleep(1000);
+          //sleep(1000);
 
         end;
 
@@ -1551,28 +1526,6 @@ begin
   result:='['+FormatDateTime('dd-MM-yyyy hh:mm:ss',Now)+']';
 end;
 
-procedure TFormMainApplication.MySQLMonitorSQL(Sender: TObject;
-  Text: string; Flag: TDATraceFlag);
-begin
-
-
-  if (copy(Text,0,6) = 'DELETE') or (copy(Text,0,6) = 'UPDATE') or (copy(Text,0,6) = 'INSERT') then
-    HOSxP_gwExecuteSQL('insert into replicate_log value (null,"'+FormatDateTime('yyyy-mm-dd hh:nn:ss',now)+'","LIS-GATEWAY","'+Text+'")');
-
-
-{  Text:=ReplaceSTR(trim(Text),'`','');
-  Text:=ReplaceSTR(trim(Text),#13#10,' ');
-  if (copy(Text,0,6) = 'DELETE') or (copy(Text,0,6) = 'UPDATE') or (copy(Text,0,6) = 'INSERT') then
-  begin
-     memoProcessLog.Lines.Add('insert into replicate_log value (null,"'+FormatDateTime('yyyy-mm-dd hh:nn:ss',now)+'","LIS-GATEWAY","'+Text+'")');
-  end;
-}
-
-  //MyQuery1.SQL.Text:=' select * from hos.replicate_log limit 1 ';
-  //MyQuery1.Execute;
-  //MemoError.Lines.Add('SQL >>>>> : '+text);
-end;
-
 procedure TFormMainApplication.Button1Click(Sender: TObject);
 var
   flen,vlen
@@ -1661,12 +1614,12 @@ begin
           cdsLabTrack.First;
           while not cdsLabTrack.Eof do
           begin
-            DeCryptText := DecrypTTextWithKey(cdsLabTrack.FieldByName('lab_order_number').asstring,cdsLabTrack.FieldByName('lab_lis_track_id').asstring+':'+hospitalcode);
+            DeCryptText:=HOSxP_gwGetLabOrderNumber(cdsLabTrack.FieldByName('lab_order_number').asstring,cdsLabTrack.FieldByName('lab_lis_track_id').AsInteger,hospitalcode);
             if trim(DeCryptText)<>'' then
             order_number := StrToInt(DeCryptText);
 
             track_type:='';
-            DeCryptText := DecrypTTextWithKey(cdsLabTrack.FieldByName('lab_lis_track_type').asstring,cdsLabTrack.FieldByName('lab_lis_track_id').asstring+':'+hospitalcode);
+            HOSxP_gwGetLabOrderType(cdsLabTrack.FieldByName('lab_lis_track_type').asstring,cdsLabTrack.FieldByName('lab_lis_track_id').AsInteger,hospitalcode,DeCryptText);
             if trim(DeCryptText)<>'' then
             track_type := DeCryptText;
 
@@ -1685,8 +1638,8 @@ begin
 
           end;
         end;
-        //HOSxP_gwUpdateDelta(cdsLabTrack.Delta,'select * from lab_lis_track');
-        HOSxP_gwUpdateDeltaA(FormMainApplication.MyConnection,FormMainApplication.MyQuery,FormMainApplication.dsp,cdsLabTrack.Delta,'select * from lab_lis_track');
+        HOSxP_gwUpdateDelta(cdsLabTrack.Delta,'select * from lab_lis_track');
+        //HOSxP_gwUpdateDeltaA(FormMainApplication.MyConnection,FormMainApplication.MyQuery,FormMainApplication.dsp,cdsLabTrack.Delta,'select * from lab_lis_track');
     end;
 end;
 
@@ -1702,13 +1655,23 @@ end;
 procedure TFormMainApplication.ShowConfiguration;
 var rep:boolean;
 xmlConn : TXMLConfig;
+Xml: TMyXml;
 _app_address,_app_hostname,_app_database,_app_user,_app_password:string;
 begin
   try
     rep:=false;
-
     if FileExists(ExtractFilePath(Application.ExeName)+_config_file) then
     begin
+
+      // Load XML from Memo1
+      Xml := TMyXml.Create;
+      Xml.LoadFromFile(ExtractFilePath(Application.ExeName)+_config_file);
+
+      _app_address      :=Xml.Root.Find('HOSxPConfig').Find('ADDRESS').Text;
+      _app_user         :=Xml.Root.Find('HOSxPConfig').Find('USER').Text;
+      _app_password     :=Xml.Root.Find('HOSxPConfig').Find('PASSWORD').Text;
+      _app_database     :=Xml.Root.Find('HOSxPConfig').Find('DATABASE').Text;
+      Xml.Free;
 
       xmlConn:=TXMLConfig.Create(ExtractFilePath(Application.ExeName)+_config_file);
        _app_address:= xmlConn.ReadString('ExtConfig','ADDRESS','');
@@ -1719,16 +1682,16 @@ begin
 
        _app_address:= xmlConn.ReadString('HOSxPConfig','ADDRESS','');
 
-       MySQLMonitor.Active:=false;
-       MySQLMonitor.DBMonitorOptions.Host:=_app_address;
-       MySQLMonitor.Active:=true;
+       //MySQLMonitor.Active:=false;
+       //MySQLMonitor.DBMonitorOptions.Host:=_app_address;
+       //MySQLMonitor.Active:=true;
 
        _app_database:=xmlConn.ReadString('HOSxPConfig','DATABASE','');
 
        edHosDBServer.Text:=_app_address;
        edHosDBName.Text:=_app_database;
 
-       MySQLMonitor.DBMonitorOptions.Host:=_app_address;
+       //MySQLMonitor.DBMonitorOptions.Host:=_app_address;
        xmlConn.Free;
 
     end;

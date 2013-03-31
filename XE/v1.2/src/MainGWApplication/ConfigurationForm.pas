@@ -68,7 +68,7 @@ var
 
 implementation
 
-uses uCiaXml, HOSxP_gwLIB;
+uses uCiaXml, HOSxP_gwLIB, MyXML;
 
 
 
@@ -84,59 +84,92 @@ end;
 procedure TformConfiguration.btnOKClick(Sender: TObject);
 var
 xmlConn : TXMLConfig;
+Xml: TMyXml;
+Node, Child, SubChild: TXmlNode;
 _app_address,_app_hostname,_app_database,_app_user,_app_password:string;
 begin
-    xmlConn:=TXMLConfig.Create(ExtractFilePath(Application.ExeName)+_config_file);
+    //--
 
-    xmlConn.WriteString('HOSxPConfig','ADDRESS',edHosDBServer.Text);
-    xmlConn.WriteString('HOSxPConfig','HOSTNAME','www.hosxp.net');
-    xmlConn.WriteString('HOSxPConfig','USER',edHosUserName.Text);
-    xmlConn.WriteString('HOSxPConfig','PASSWORD',edHosPassword.Text);
-    xmlConn.WriteString('HOSxPConfig','DATABASE',edHosDBName.Text);
-    xmlConn.WriteString('HOSxPConfig','TRACKDATE_DD',FormatDateTime('dd',dtHosTrackDate.Date));
-    xmlConn.WriteString('HOSxPConfig','TRACKDATE_MM',FormatDateTime('MM',dtHosTrackDate.Date));
-    xmlConn.WriteString('HOSxPConfig','TRACKDATE_YYYY',FormatDateTime('yyyy',dtHosTrackDate.Date));
+    if not FileExists(ExtractFilePath(Application.ExeName)+_config_file) then
+    begin
+      Xml := TMyXml.Create;
+      Xml.Header.Attribute['encoding'] := 'utf-8';
 
-    //
-    xmlConn.WriteString('ExtConfig','ADDRESS',edgwDBServer.Text);
-    xmlConn.WriteString('ExtConfig','HOSTNAME','www.hosxp.net');
-    xmlConn.WriteString('ExtConfig','USER',edgwUserName.Text);
-    xmlConn.WriteString('ExtConfig','PASSWORD',edgwPassword.Text);
-    xmlConn.WriteString('ExtConfig','DATABASE',edgwDBName.Text);
-    xmlConn.WriteString('ExtConfig','TRACKDATE_DD',FormatDateTime('dd',dtGwTrackDate.Date));
-    xmlConn.WriteString('ExtConfig','TRACKDATE_MM',FormatDateTime('MM',dtGwTrackDate.Date));
-    xmlConn.WriteString('ExtConfig','TRACKDATE_YYYY',FormatDateTime('yyyy',dtGwTrackDate.Date));
-    xmlConn.Save;
+      Xml.Root.NodeName := 'Configuration';
+      Node := Xml.Root.AddChild('HOSxPConfig');
+      SubChild := Node.AddChild('ADDRESS');SubChild.Text := edHosDBServer.Text;
+      SubChild := Node.AddChild('HOSTNAME');SubChild.Text := 'www.hosxp.net';
+      SubChild := Node.AddChild('USER');SubChild.Text := edHosUserName.Text;
+      SubChild := Node.AddChild('PASSWORD');SubChild.Text := edHosPassword.Text;
+      SubChild := Node.AddChild('DATABASE');SubChild.Text := edHosDBName.Text;
+      SubChild := Node.AddChild('TRACKDATE_DD');SubChild.Text := FormatDateTime('dd',dtHosTrackDate.Date);
+      SubChild := Node.AddChild('TRACKDATE_MM');SubChild.Text := FormatDateTime('MM',dtHosTrackDate.Date);
+      SubChild := Node.AddChild('TRACKDATE_YYYY');SubChild.Text := FormatDateTime('yyyy',dtHosTrackDate.Date);
 
-  ShowMessage('Save Configuration Success.');
+      Node := Xml.Root.AddChild('GatewayConfig');
+      SubChild := Node.AddChild('ADDRESS');SubChild.Text := edgwDBServer.Text;
+      SubChild := Node.AddChild('HOSTNAME');SubChild.Text := 'www.hosxp.net';
+      SubChild := Node.AddChild('USER');SubChild.Text := edgwUserName.Text;
+      SubChild := Node.AddChild('PASSWORD');SubChild.Text := edgwPassword.Text;
+      SubChild := Node.AddChild('DATABASE');SubChild.Text := edgwDBName.Text;
+      SubChild := Node.AddChild('TRACKDATE_DD');SubChild.Text := FormatDateTime('dd',dtGwTrackDate.Date);
+      SubChild := Node.AddChild('TRACKDATE_MM');SubChild.Text := FormatDateTime('MM',dtGwTrackDate.Date);
+      SubChild := Node.AddChild('TRACKDATE_YYYY');SubChild.Text := FormatDateTime('yyyy',dtGwTrackDate.Date);
+
+      Xml.SaveToFile(ExtractFilePath(Application.ExeName)+_config_file);
+      Xml.Free;
+
+      //--
+
+      ShowMessage('Save Configuration Success.');
+    end;
   Close;
 end;
 
 procedure TformConfiguration.SaveMyExtConnection;
 var rep:boolean;
 xmlConn : TXMLConfig;
+Xml: TMyXml;
+Node, Child, SubChild: TXmlNode;
 _app_address,_app_hostname,_app_database,_app_user,_app_password:string;
 begin
   try
     rep:=false;
-    xmlConn:=TXMLConfig.Create(ExtractFilePath(Application.ExeName)+_config_file);
-    //xmlConn:=TXMLConfig.Create(_config_file);
-    if (xmlConn.ReadString('ExtConfig','ADDRESS','')='') then
+    // gateway
+    if not FileExists(ExtractFilePath(Application.ExeName)+_config_file) then
     begin
-        // mssql connection
-        xmlConn.WriteString('ExtConfig','ADDRESS','localhost');
-        xmlConn.WriteString('ExtConfig','HOSTNAME','www.hosxp.net');
-        xmlConn.WriteString('ExtConfig','USER','root');
-        xmlConn.WriteString('ExtConfig','PASSWORD','123456');
-        xmlConn.WriteString('ExtConfig','DATABASE',_sample_db);
-        xmlConn.Save;
+      Xml := TMyXml.Create;
+      Xml.Header.Attribute['encoding'] := 'utf-8';
+
+      Node := Xml.Root.AddChild('GatewayConfig');
+      SubChild := Node.AddChild('ADDRESS');SubChild.Text := '127.0.0.1';
+      SubChild := Node.AddChild('HOSTNAME');SubChild.Text := 'www.hosxp.net';
+      SubChild := Node.AddChild('USER');SubChild.Text := 'root';
+      SubChild := Node.AddChild('PASSWORD');SubChild.Text := '123456';
+      SubChild := Node.AddChild('DATABASE');SubChild.Text := 'gatewaydbname';
+      SubChild := Node.AddChild('TRACKDATE_DD');SubChild.Text := '01';
+      SubChild := Node.AddChild('TRACKDATE_MM');SubChild.Text := '01';
+      SubChild := Node.AddChild('TRACKDATE_YYYY');SubChild.Text := '2012';
+
+
+      Xml.SaveToFile(ExtractFilePath(Application.ExeName)+_config_file);
+      Xml.Free;
+
+      //--
+
+      ShowMessage('Save Configuration Success.');
     end;
 
-     _app_address:= xmlConn.ReadString('ExtConfig','ADDRESS','');
-     _app_hostname:= xmlConn.ReadString('ExtConfig','HOSTNAME','');
-     _app_database:=xmlConn.ReadString('ExtConfig','DATABASE','');
-     _app_user:=xmlConn.ReadString('ExtConfig','USER','root');
-     _app_password:=xmlConn.ReadString('ExtConfig','PASSWORD','123456');
+
+    Xml := TMyXml.Create;
+    Xml.LoadFromFile(ExtractFilePath(Application.ExeName)+_config_file);
+
+    _app_address      :=Xml.Root.Find('GatewayConfig').Find('ADDRESS').Text;
+    _app_user         :=Xml.Root.Find('GatewayConfig').Find('USER').Text;
+    _app_password     :=Xml.Root.Find('GatewayConfig').Find('PASSWORD').Text;
+    _app_database     :=Xml.Root.Find('GatewayConfig').Find('DATABASE').Text;
+    Xml.Free;
+
 
      edgwDBServer.Text:=_app_address;
      edgwDBName.Text:=_app_database;
@@ -160,28 +193,46 @@ end;
 procedure TformConfiguration.SaveMyGwConnection;
 var rep:boolean;
 xmlConn : TXMLConfig;
+Xml: TMyXml;
+Node, Child, SubChild: TXmlNode;
 _app_address,_app_hostname,_app_database,_app_user,_app_password:string;
 begin
   try
     rep:=false;
-    xmlConn:=TXMLConfig.Create(ExtractFilePath(Application.ExeName)+_config_file);
-    //xmlConn:=TXMLConfig.Create(_config_file);
-    if (xmlConn.ReadString('HOSxPConfig','ADDRESS','')='') then
+    // hos
+    if not FileExists(ExtractFilePath(Application.ExeName)+_config_file) then
     begin
-        // mssql connection
-        xmlConn.WriteString('HOSxPConfig','ADDRESS','localhost');
-        xmlConn.WriteString('HOSxPConfig','HOSTNAME','www.hosxp.net');
-        xmlConn.WriteString('HOSxPConfig','USER','root');
-        xmlConn.WriteString('HOSxPConfig','PASSWORD','123456');
-        xmlConn.WriteString('HOSxPConfig','DATABASE',_sample_db);
-        xmlConn.Save;
+      Xml := TMyXml.Create;
+      Xml.Header.Attribute['encoding'] := 'utf-8';
+
+      Node := Xml.Root.AddChild('HOSxPConfig');
+      SubChild := Node.AddChild('ADDRESS');SubChild.Text := '127.0.0.1';
+      SubChild := Node.AddChild('HOSTNAME');SubChild.Text := 'www.hosxp.net';
+      SubChild := Node.AddChild('USER');SubChild.Text := 'root';
+      SubChild := Node.AddChild('PASSWORD');SubChild.Text := '123456';
+      SubChild := Node.AddChild('DATABASE');SubChild.Text := 'hosdbname';
+      SubChild := Node.AddChild('TRACKDATE_DD');SubChild.Text := '01';
+      SubChild := Node.AddChild('TRACKDATE_MM');SubChild.Text := '01';
+      SubChild := Node.AddChild('TRACKDATE_YYYY');SubChild.Text := '2012';
+
+      Xml.SaveToFile(ExtractFilePath(Application.ExeName)+_config_file);
+      Xml.Free;
+
+      //--
+
+      ShowMessage('Save Configuration Success.');
     end;
 
-     _app_address:= xmlConn.ReadString('HOSxPConfig','ADDRESS','');
-     _app_hostname:= xmlConn.ReadString('HOSxPConfig','HOSTNAME','');
-     _app_database:=xmlConn.ReadString('HOSxPConfig','DATABASE','');
-     _app_user:=xmlConn.ReadString('HOSxPConfig','USER','root');
-     _app_password:=xmlConn.ReadString('HOSxPConfig','PASSWORD','123456');
+
+    Xml := TMyXml.Create;
+    Xml.LoadFromFile(ExtractFilePath(Application.ExeName)+_config_file);
+
+    _app_address      :=Xml.Root.Find('HOSxPConfig').Find('ADDRESS').Text;
+    _app_user         :=Xml.Root.Find('HOSxPConfig').Find('USER').Text;
+    _app_password     :=Xml.Root.Find('HOSxPConfig').Find('PASSWORD').Text;
+    _app_database     :=Xml.Root.Find('HOSxPConfig').Find('DATABASE').Text;
+    Xml.Free;
+
 
      edHosDBServer.Text:=_app_address;
      edHosDBName.Text:=_app_database;

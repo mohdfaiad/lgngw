@@ -45,6 +45,10 @@ type
     btnTestHosConnection: TButton;
     btnTestGwConnection: TButton;
     MyConnectionTest: TMyConnection;
+    cxLabel9: TcxLabel;
+    dtHosTrackDate: TDateTimePicker;
+    cxLabel10: TcxLabel;
+    dtGwTrackDate: TDateTimePicker;
     procedure btnCancelClick(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -64,16 +68,11 @@ var
 
 implementation
 
-uses uCiaXml;
+uses uCiaXml, HOSxP_gwLIB, MyXML;
 
 
 
 {$R *.dfm}
-
-const
-_config_file ='gwconfig.xml';
-_sample_db='dba0';
-
 
 
 
@@ -85,23 +84,38 @@ end;
 procedure TformConfiguration.btnOKClick(Sender: TObject);
 var
 xmlConn : TXMLConfig;
+Xml: TMyXml;
+Node, Child, SubChild: TXmlNode;
 _app_address,_app_hostname,_app_database,_app_user,_app_password:string;
 begin
-    xmlConn:=TXMLConfig.Create(ExtractFilePath(Application.ExeName)+_config_file);
+    //--
+    Xml := TMyXml.Create;
+    Xml.Header.Attribute['encoding'] := 'utf-8';
 
-    xmlConn.WriteString('HOSxPConfig','ADDRESS',edHosDBServer.Text);
-    xmlConn.WriteString('HOSxPConfig','HOSTNAME','www.hosxp.net');
-    xmlConn.WriteString('HOSxPConfig','USER',edHosUserName.Text);
-    xmlConn.WriteString('HOSxPConfig','PASSWORD',edHosPassword.Text);
-    xmlConn.WriteString('HOSxPConfig','DATABASE',edHosDBName.Text);
+    Xml.Root.NodeName := 'Configuration';
+    Node := Xml.Root.AddChild('HOSxPConfig');
+    SubChild := Node.AddChild('ADDRESS');SubChild.Text := edHosDBServer.Text;
+    SubChild := Node.AddChild('HOSTNAME');SubChild.Text := 'www.hosxp.net';
+    SubChild := Node.AddChild('USER');SubChild.Text := edHosUserName.Text;
+    SubChild := Node.AddChild('PASSWORD');SubChild.Text := edHosPassword.Text;
+    SubChild := Node.AddChild('DATABASE');SubChild.Text := edHosDBName.Text;
+    SubChild := Node.AddChild('TRACKDATE_DD');SubChild.Text := FormatDateTime('dd',dtHosTrackDate.Date);
+    SubChild := Node.AddChild('TRACKDATE_MM');SubChild.Text := FormatDateTime('MM',dtHosTrackDate.Date);
+    SubChild := Node.AddChild('TRACKDATE_YYYY');SubChild.Text := FormatDateTime('yyyy',dtHosTrackDate.Date);
 
-    //
-    xmlConn.WriteString('ExtConfig','ADDRESS',edgwDBServer.Text);
-    xmlConn.WriteString('ExtConfig','HOSTNAME','www.hosxp.net');
-    xmlConn.WriteString('ExtConfig','USER',edgwUserName.Text);
-    xmlConn.WriteString('ExtConfig','PASSWORD',edgwPassword.Text);
-    xmlConn.WriteString('ExtConfig','DATABASE',edgwDBName.Text);
-    xmlConn.Save;
+    Node := Xml.Root.AddChild('GatewayConfig');
+    SubChild := Node.AddChild('ADDRESS');SubChild.Text := edgwDBServer.Text;
+    SubChild := Node.AddChild('HOSTNAME');SubChild.Text := 'www.hosxp.net';
+    SubChild := Node.AddChild('USER');SubChild.Text := edgwUserName.Text;
+    SubChild := Node.AddChild('PASSWORD');SubChild.Text := edgwPassword.Text;
+    SubChild := Node.AddChild('DATABASE');SubChild.Text := edgwDBName.Text;
+    SubChild := Node.AddChild('TRACKDATE_DD');SubChild.Text := FormatDateTime('dd',dtGwTrackDate.Date);
+    SubChild := Node.AddChild('TRACKDATE_MM');SubChild.Text := FormatDateTime('MM',dtGwTrackDate.Date);
+    SubChild := Node.AddChild('TRACKDATE_YYYY');SubChild.Text := FormatDateTime('yyyy',dtGwTrackDate.Date);
+
+    Xml.SaveToFile(ExtractFilePath(Application.ExeName)+_config_file);
+    Xml.Free;
+    //--
 
   ShowMessage('Save Configuration Success.');
   Close;

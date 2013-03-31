@@ -18,21 +18,26 @@ uses
 
 function HOSxP_gwCheckLisenceGateway (hospcode:string):boolean;
 begin
-    Result := CheckLisenceGateway(hospcode);
+  Result := CheckLisenceGateway(hospcode);
 end;
 
-function HOSxP_gwGetLabOrderNumber(LaborderEncrytext:String;LISTrackID:integer;hospcode:string):string; stdcall;
+procedure HOSxP_gwGetLabOrderNumber(LaborderEncrytext:String;LISTrackID:integer;hospcode:string;out buffer:string);
 begin
-  Result := GetLabOrderNumber(LaborderEncrytext,LISTrackID,hospcode);
+  buffer := GetLabOrderNumber(LaborderEncrytext,LISTrackID,hospcode);
 end;
 
-function HOSxP_gwGetLabOrderType(LabTypetext:String;LISTrackID:integer;hospcode:string):string;stdcall;
+procedure HOSxP_gwGetLabOrderType(LabTypetext:String;LISTrackID:integer;hospcode:string;out buffer:string);
 begin
-  Result := GetLabOrderType(LabTypetext,LISTrackID,hospcode);
+  buffer := GetLabOrderType(LabTypetext,LISTrackID,hospcode);
+end;
+
+procedure HOSxP_gwGetLabOrderResult(LabOrderNumber,LISItemcode:integer;hospcode:string;out buffer:string);
+begin
+  buffer := GetLabOrderResult(LabOrderNumber,LISItemcode,hospcode);
 end;
 
 exports
-   HOSxP_gwGetLabOrderNumber,HOSxP_gwGetLabOrderType;
+   HOSxP_gwGetLabOrderNumber,HOSxP_gwGetLabOrderType,HOSxP_gwCheckLisenceGateway,HOSxP_gwGetLabOrderResult;
 
 begin
 end.
